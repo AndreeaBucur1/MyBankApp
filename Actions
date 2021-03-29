@@ -1,0 +1,23 @@
+#pot adauga clienti
+#pot adauga conturi bancare clientilor
+#pot adauga carduri clientilor
+#pot retrage bani din contul meu
+#pot transfera bani
+#pot face depuneri
+#pot scoate un extras de cont
+#pot deschide cont de economii
+#pot adauga card de cumparaturi
+#pot elimina conturi
+#pot elimina carduri
+#pot elimina clienti
+
+Tipuri de obiecte:
+
+-client
+-cont bancar
+-cont aplicatie bancara
+-extras de cont
+-tranzactie
+-cont de economii
+-card de credit
+-card de debit
