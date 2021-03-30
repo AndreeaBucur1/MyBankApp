@@ -268,6 +268,9 @@ public class Controller {
                 transferTo.setBalance(transferTo.getBalance() + sum);
             }
         }
+        else{
+            System.out.println("Bank account does not exist");
+        }
     }
 
 
