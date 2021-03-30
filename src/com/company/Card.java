@@ -5,18 +5,28 @@ import java.time.LocalDate;
 public class Card {
     protected int cardId;
     private static int id = 0;
+    private static int cvv = 1000;
+    private static long number = 1000000000;
     protected int bankAccountId;
-    protected int cardNumber;
+    protected long cardNumber;
     protected int CVV;
     protected LocalDate expirationDate;
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "cardId=" + cardId +
+                ", bankAccountId=" + bankAccountId +
+                ", cardNumber=" + cardNumber +
+                ", CVV=" + CVV +
+                ", expirationDate=" + expirationDate +
+                '}';
+    }
 
     public int getCardId() {
         return cardId;
     }
 
-    public void setCardId(int cardId) {
-        this.cardId = cardId;
-    }
 
     public int getBankAccountId() {
         return bankAccountId;
@@ -26,7 +36,7 @@ public class Card {
         this.bankAccountId = bankAccountId;
     }
 
-    public int getCardNumber() {
+    public long getCardNumber() {
         return cardNumber;
     }
 
@@ -50,11 +60,11 @@ public class Card {
         this.expirationDate = expirationDate;
     }
 
-    public Card(int cardId, int bankAccountId, int cardNumber, int CVV, LocalDate expirationDate) {
+    public Card( int bankAccountId,LocalDate expirationDate) {
         this.cardId = ++id;
         this.bankAccountId = bankAccountId;
-        this.cardNumber = cardNumber;
-        this.CVV = CVV;
+        this.cardNumber = number++;
+        this.CVV = ++cvv;
         this.expirationDate = expirationDate;
     }
 }

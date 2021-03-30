@@ -28,6 +28,7 @@ public class Client {
     }
 
     public Client( ArrayList<BankAccount> bankAccounts, String firstName, String lastName, String phoneNumber, String email, int appAccountId) {
+        bankAccounts = new ArrayList<>();
         this.clientId = ++id;
         this.bankAccounts = bankAccounts;
         this.firstName = firstName;
@@ -91,5 +92,9 @@ public class Client {
 
     public void setAppAccountId(int appAccountId) {
         this.appAccountId = appAccountId;
+    }
+
+    public void addBankAccount(BankAccount bankAccount) {
+        bankAccounts.add(bankAccount);
     }
 }

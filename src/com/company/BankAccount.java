@@ -12,6 +12,7 @@ public class BankAccount {
     protected LocalDate openingDate;
 
     public BankAccount(ArrayList<Card> cards, String IBAN, float balance, LocalDate openingDate) {
+        cards = new ArrayList<>();
         this.bankAccountId = ++id;
         this.cards = cards;
         this.IBAN = IBAN;
@@ -76,5 +77,10 @@ public class BankAccount {
 
     public void setOpeningDate(LocalDate openingDate) {
         this.openingDate = openingDate;
+    }
+
+
+    public void addCard(Card card) {
+        cards.add(card);
     }
 }

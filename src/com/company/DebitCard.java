@@ -6,8 +6,8 @@ public class DebitCard extends Card{
     public float overDraftLimit;
     public float transactionCommission;
 
-    public DebitCard(int cardId, int bankAccountId, int cardNumber, int CVV, LocalDate expirationDate, float overDraftLimit, float transactionCommission) {
-        super(cardId, bankAccountId, cardNumber, CVV, expirationDate);
+    public DebitCard(int bankAccountId, LocalDate expirationDate, float overDraftLimit, float transactionCommission) {
+        super( bankAccountId, expirationDate);
         this.overDraftLimit = overDraftLimit;
         this.transactionCommission = transactionCommission;
     }
