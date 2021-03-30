@@ -29,6 +29,7 @@ public class Main {
         controller.addFunds(2,1000);
         controller.withdraw(2,100);
         controller.withdraw(1,1000);
+        controller.transfer(2,1,100);
 
 
         System.out.println();

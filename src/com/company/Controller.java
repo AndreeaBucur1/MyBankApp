@@ -98,6 +98,7 @@ public class Controller {
         return null;
     }
 
+
     public void addClient( String firstName, String lastName, String phoneNumber, String email, long PNC){
         Client client = new Client(null, firstName, lastName, phoneNumber, email, 0,PNC);
         clients.add(client);
@@ -231,7 +232,7 @@ public class Controller {
         BankAccount bankAccount = findBankAccount(bankAccountId);
         if (bankAccount != null){
             if(sum > bankAccount.getBalance()){
-                System.out.println("Not enough founds to make this transaction");
+                System.out.println("Insufficient funds");
                 String transactionName = "Failed attempt to withdraw money";
                 Transaction transaction = new Transaction(bankAccountId,transactionName, LocalDate.now(),0);
                 transactions.add(transaction);
@@ -245,6 +246,27 @@ public class Controller {
         }
         else{
             System.out.println("This account does not exist");
+        }
+    }
+
+    public void transfer(int transferFromBankAccountId,int transferToBankAccountId,int sum){
+        BankAccount transferFrom = findBankAccount(transferFromBankAccountId);
+        BankAccount transferTo = findBankAccount(transferToBankAccountId);
+        if(transferFrom != null && transferTo != null){
+            if(transferFrom.getBalance() < sum) {
+                String transactionName = "Insufficient funds";
+                System.out.println("Not enough money to transfer.");
+                Transaction transaction = new Transaction(transferFromBankAccountId,transactionName, LocalDate.now(),0);
+                transactions.add(transaction);
+
+            }
+            else{
+                String transactionName = "Money transfer";
+                MoneyTransfer transfer = new MoneyTransfer(transferFromBankAccountId,transactionName, LocalDate.now(),sum,transferToBankAccountId);
+                transactions.add(transfer);
+                transferFrom.setBalance(transferFrom.getBalance() - sum);
+                transferTo.setBalance(transferTo.getBalance() + sum);
+            }
         }
     }
 
