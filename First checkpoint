@@ -1,0 +1,28 @@
+
+  Classes:
+ 
+ *AppAccount
+ *Client
+ *BankAccount
+ *SavingAccount(extends BankAccount)
+ *Card
+ *CreditCard(extends Card)
+ *DebitCard(extends Card)
+ *AccountStatement
+ *Transaction
+ 
+ 
+ 
+    Actions
+    
+   *find cliend by id 
+   *find bankAccount by id
+   *add client
+   *add bankAccount
+   *add card
+   *add creditCard
+   *add debitCard
+   *add savingAccount
+   *add funds to an account
+   *add appAccount
+ 
