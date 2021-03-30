@@ -17,7 +17,7 @@ public class Main {
         ArrayList<AppAccount> appAccounts = controller.getAppAccounts();
         ArrayList<CreditCard> creditCards = controller.getCreditCards();
         ArrayList<SavingAccount> savingAccounts = controller.getSavingAccounts();
-
+        ArrayList<Transaction> transactions = controller.getTransactions();
 
         controller.addBankAccount( 1);
         controller.addClient("Olivia","Green","0789652475","oliviagreen@yahoo.com",123456879);
@@ -28,6 +28,7 @@ public class Main {
         controller.addDebitCard(1);
         controller.addFunds(2,1000);
         controller.withdraw(2,100);
+        controller.withdraw(1,1000);
 
 
         System.out.println();
@@ -49,6 +50,7 @@ public class Main {
 
         controller.sort(clients);
 
+
         System.out.println("Clients:");
         for(Client client : clients){
             System.out.println(client);
@@ -60,8 +62,10 @@ public class Main {
             System.out.println(appAccount);
         }
         System.out.println();
-        controller.addAppAccount(1);
 
+        for(Transaction transaction : transactions){
+            System.out.println(transaction);
+        }
 
 
 

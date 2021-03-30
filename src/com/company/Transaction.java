@@ -7,23 +7,31 @@ public class Transaction {
     private int transactionId;
     private static int id = 0;
     private String transactionName;
-    private BankAccount bankAccountId;
+    private int bankAccountId;
     private LocalDate date;
     private float sold;
 
-    public Transaction( BankAccount bankAccountId, LocalDate date, float sold) {
+    public Transaction( int  bankAccountId,String transactionName, LocalDate date, float sold) {
         this.transactionId = ++id;
+        this.transactionName = transactionName;
         this.bankAccountId = bankAccountId;
         this.date = date;
         this.sold = sold;
     }
 
+    public String getTransactionName() {
+        return transactionName;
+    }
 
-    public BankAccount getBankAccountId() {
+    public void setTransactionName(String transactionName) {
+        this.transactionName = transactionName;
+    }
+
+    public int getBankAccountId() {
         return bankAccountId;
     }
 
-    public void setBankAccountId(BankAccount bankAccountId) {
+    public void setBankAccountId(int bankAccountId) {
         this.bankAccountId = bankAccountId;
     }
 
@@ -47,6 +55,7 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "transactionId=" + transactionId +
+                ", transactionName='" + transactionName + '\'' +
                 ", bankAccountId=" + bankAccountId +
                 ", date=" + date +
                 ", sold=" + sold +

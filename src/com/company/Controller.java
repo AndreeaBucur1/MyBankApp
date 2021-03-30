@@ -216,9 +216,11 @@ public class Controller {
 
     public void addFunds(int bankAccountId,int sum){
         BankAccount bankAccount = findBankAccount(bankAccountId);
-        System.out.println("id cont: " + bankAccountId);
         if(bankAccount != null){
+            String transactionName = "Add funds";
+            Transaction transaction = new Transaction(bankAccountId,transactionName,LocalDate.now(), ((float) sum));
             bankAccount.setBalance(bankAccount.getBalance() + sum);
+            transactions.add(transaction);
         }
         else{
             System.out.println("Cannot add funds. This bank account does not exist");
@@ -230,9 +232,15 @@ public class Controller {
         if (bankAccount != null){
             if(sum > bankAccount.getBalance()){
                 System.out.println("Not enough founds to make this transaction");
+                String transactionName = "Failed attempt to withdraw money";
+                Transaction transaction = new Transaction(bankAccountId,transactionName, LocalDate.now(),0);
+                transactions.add(transaction);
             }
             else{
+                String transactionName = "Money withdrawal";
                 bankAccount.setBalance(bankAccount.getBalance() - sum);
+                Transaction transaction = new Transaction(bankAccountId,transactionName, LocalDate.now(),sum);
+                transactions.add(transaction);
             }
         }
         else{
