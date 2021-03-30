@@ -225,6 +225,21 @@ public class Controller {
         }
     }
 
+    public void withdraw(int bankAccountId,int sum){
+        BankAccount bankAccount = findBankAccount(bankAccountId);
+        if (bankAccount != null){
+            if(sum > bankAccount.getBalance()){
+                System.out.println("Not enough founds to make this transaction");
+            }
+            else{
+                bankAccount.setBalance(bankAccount.getBalance() - sum);
+            }
+        }
+        else{
+            System.out.println("This account does not exist");
+        }
+    }
+
 
 
 }

@@ -7,7 +7,7 @@ public class Transaction {
     private int transactionId;
     private static int id = 0;
     private String transactionName;
-    private AppAccount bankAccountId;
+    private BankAccount bankAccountId;
     private LocalDate date;
     private float sold;
 

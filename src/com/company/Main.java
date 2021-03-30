@@ -27,6 +27,7 @@ public class Main {
         controller.addCard(2);
         controller.addDebitCard(1);
         controller.addFunds(2,1000);
+        controller.withdraw(2,100);
 
 
         System.out.println();
