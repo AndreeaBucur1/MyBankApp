@@ -4,31 +4,26 @@ import java.time.LocalDate;
 
 
 public class Transaction {
-    public int transactionId;
-    private Account bankAccountId;
+    private int transactionId;
+    private static int id = 0;
+    private String transactionName;
+    private AppAccount bankAccountId;
     private LocalDate date;
     private float sold;
 
-    public Transaction(int transactionId, Account bankAccountId, LocalDate date, float sold) {
-        this.transactionId = transactionId;
+    public Transaction( BankAccount bankAccountId, LocalDate date, float sold) {
+        this.transactionId = ++id;
         this.bankAccountId = bankAccountId;
         this.date = date;
         this.sold = sold;
     }
 
-    public int getTransactionId() {
-        return transactionId;
-    }
 
-    public void setTransactionId(int transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public Account getBankAccountId() {
+    public BankAccount getBankAccountId() {
         return bankAccountId;
     }
 
-    public void setBankAccountId(Account bankAccountId) {
+    public void setBankAccountId(BankAccount bankAccountId) {
         this.bankAccountId = bankAccountId;
     }
 

@@ -10,8 +10,22 @@ public class Controller {
     ArrayList<Transaction> transactions = new ArrayList<>();
     ArrayList<Card> cards = new ArrayList<>();
     ArrayList<AccountStatement> accountStatements = new ArrayList<>();
+    ArrayList<AppAccount> appAccounts = new ArrayList<>();
+    ArrayList<CreditCard> creditCards = new ArrayList<>();
+    ArrayList<DebitCard> debitCards = new ArrayList<>();
+    ArrayList<SavingAccount> savingAccounts = new ArrayList<>();
 
 
+    //Sort clients list by last name
+    public static void sort(ArrayList<Client> list)
+    {
+
+        list.sort((o1, o2)
+                -> o1.getLastName().compareTo(
+                o2.getLastName()));
+    }
+
+    
     public ArrayList<Client> getClients() {
         return clients;
     }
@@ -44,6 +58,22 @@ public class Controller {
         this.cards = cards;
     }
 
+    public ArrayList<DebitCard> getDebitCards() {
+        return debitCards;
+    }
+
+    public void setDebitCards(ArrayList<DebitCard> debitCards) {
+        this.debitCards = debitCards;
+    }
+
+    public ArrayList<SavingAccount> getSavingAccounts() {
+        return savingAccounts;
+    }
+
+    public void setSavingAccounts(ArrayList<SavingAccount> savingAccounts) {
+        this.savingAccounts = savingAccounts;
+    }
+
     public ArrayList<AccountStatement> getAccountStatements() {
         return accountStatements;
     }
@@ -68,16 +98,16 @@ public class Controller {
         return null;
     }
 
-    public void addClient( String firstName, String lastName, String phoneNumber, String email){
-        Client client = new Client(null, firstName, lastName, phoneNumber, email, 0);
+    public void addClient( String firstName, String lastName, String phoneNumber, String email, long PNC){
+        Client client = new Client(null, firstName, lastName, phoneNumber, email, 0,PNC);
         clients.add(client);
     }
 
 
-    public void addBankAccount(String IBAN,int clientId) {
+    public void addBankAccount(int clientId) {
         if (findClient(clientId) != null) {
             LocalDate openingDate = LocalDate.now();
-            BankAccount bankAccount = new BankAccount(null, IBAN, 0, openingDate);
+            BankAccount bankAccount = new BankAccount( openingDate);
             bankAccounts.add(bankAccount);
             Client client = findClient(clientId);
             client.addBankAccount(bankAccount);
@@ -86,6 +116,14 @@ public class Controller {
         else{
             System.out.println("Client does not exist!");
         }
+    }
+
+    public ArrayList<AppAccount> getAppAccounts() {
+        return appAccounts;
+    }
+
+    public void setAppAccounts(ArrayList<AppAccount> appAccounts) {
+        this.appAccounts = appAccounts;
     }
 
     public void addCard(int bankAccountId){
@@ -101,6 +139,92 @@ public class Controller {
             System.out.println("Bank Account does not exist");
         }
     }
+
+    public void addAppAccount(int clientId){
+        if(findClient(clientId) != null) {
+            Client client = findClient(clientId);
+            String password = "";
+            if (client.getAppAccountId() == 0) {
+                char lastName = client.getLastName().charAt(0);
+                char firstName = client.getFirstName().charAt(0);
+                long lastDigits = client.getPNC();
+                lastDigits = lastDigits % 10000;
+                if (lastDigits < 1000) {
+                    lastDigits = 1000 + lastDigits;
+                }
+
+                password = password + lastName + firstName;
+                password = password + lastDigits;
+                AppAccount appAccount = new AppAccount(password);
+                appAccounts.add(appAccount);
+                client.setAppAccountId(appAccount.getAppAccountId());
+            } else {
+                System.out.println("Clientul are deja un cont");
+            }
+        }
+        else{
+            System.out.println("Clientul nu exista");
+        }
+    }
+
+    public ArrayList<CreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void setCreditCards(ArrayList<CreditCard> creditCards) {
+        this.creditCards = creditCards;
+    }
+
+    public void addCreditCard(int bankAccountId){
+        if(findBankAccount(bankAccountId) != null){
+            LocalDate expirationDate = LocalDate.now().plusYears(4);
+            CreditCard creditCard = new CreditCard(bankAccountId,expirationDate,expirationDate);
+            creditCards.add(creditCard);
+            BankAccount bankAccount = findBankAccount(bankAccountId);
+            bankAccount.addCard(creditCard);
+        }
+        else{
+            System.out.println("Cannot add credit card. This bank account does not exist");
+        }
+    }
+
+    public void addDebitCard(int bankAccountId){
+        if(findBankAccount(bankAccountId) != null){
+            LocalDate expirationDate = LocalDate.now().plusYears(4);
+            DebitCard debitCard = new DebitCard(bankAccountId,expirationDate);
+            debitCards.add(debitCard);
+            BankAccount bankAccount = findBankAccount(bankAccountId);
+            bankAccount.addCard(debitCard);
+        }
+        else{
+            System.out.println("Cannot add debit card. This bank account does not exist.");
+        }
+    }
+
+    public void addSavingAccount(int clientId){
+        if(findClient(clientId) != null){
+            Client client = findClient(clientId);
+            LocalDate openingDate = LocalDate.now();
+            SavingAccount savingAccount = new SavingAccount(openingDate);
+            savingAccounts.add(savingAccount);
+            client.addBankAccount(savingAccount);
+        }
+        else {
+            System.out.println("Cannot add this saving account. Client does not exist");
+        }
+    }
+
+    public void addFunds(int bankAccountId,int sum){
+        BankAccount bankAccount = findBankAccount(bankAccountId);
+        System.out.println("id cont: " + bankAccountId);
+        if(bankAccount != null){
+            bankAccount.setBalance(bankAccount.getBalance() + sum);
+        }
+        else{
+            System.out.println("Cannot add funds. This bank account does not exist");
+        }
+    }
+
 
 
 }

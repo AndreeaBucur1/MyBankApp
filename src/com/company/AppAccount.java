@@ -1,16 +1,15 @@
 package com.company;
 
-import java.util.Date;
-
-public class Account {
+public class AppAccount {
     private int appAccountId;
     private static int id = 0;
     private int accessToken;
+    private static int token = 100000;
     private String password;
 
-    public Account(int appAccountId, int accessToken, String password) {
+    public AppAccount(String password) {
         this.appAccountId = ++id;
-        this.accessToken = accessToken;
+        this.accessToken = token++;
         this.password = password;
     }
 
@@ -27,7 +26,7 @@ public class Account {
     }
 
     public static void setId(int id) {
-        Account.id = id;
+        AppAccount.id = id;
     }
 
     public int getAccessToken() {

@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 
-public class Client {
+public class Client{
 
     private int clientId ;
     private static int  id = 0;
@@ -11,7 +11,8 @@ public class Client {
     private String lastName;
     private String phoneNumber;
     private String email;
-    private int appAccountId;
+    private int appAccountId = 0;
+    private long PNC;
 
 
     @Override
@@ -24,10 +25,19 @@ public class Client {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", appAccountId=" + appAccountId +
+                ", PNC : " + PNC +
                 '}';
     }
 
-    public Client( ArrayList<BankAccount> bankAccounts, String firstName, String lastName, String phoneNumber, String email, int appAccountId) {
+    public long getPNC() {
+        return PNC;
+    }
+
+    public void setPNC(long PNC) {
+        this.PNC = PNC;
+    }
+
+    public Client(ArrayList<BankAccount> bankAccounts, String firstName, String lastName, String phoneNumber, String email, int appAccountId, long PNC) {
         bankAccounts = new ArrayList<>();
         this.clientId = ++id;
         this.bankAccounts = bankAccounts;
@@ -36,6 +46,7 @@ public class Client {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.appAccountId = appAccountId;
+        this.PNC = PNC;
     }
 
     public int getClientId() {
@@ -45,6 +56,7 @@ public class Client {
     public void setClientId(int clientId) {
         this.clientId = clientId;
     }
+    
 
     public ArrayList<BankAccount> getBankAccounts() {
         return bankAccounts;
@@ -97,4 +109,5 @@ public class Client {
     public void addBankAccount(BankAccount bankAccount) {
         bankAccounts.add(bankAccount);
     }
+
 }

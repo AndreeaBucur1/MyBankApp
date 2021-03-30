@@ -3,10 +3,10 @@ package com.company;
 import java.time.LocalDate;
 
 public class CreditCard extends Card{
-    private float availableBalance;
+    private float availableBalance = 10000;
     private LocalDate dueDate;
 
-    public CreditCard(int bankAccountId, LocalDate expirationDate, float availableBalance, LocalDate dueDate) {
+    public CreditCard(int bankAccountId, LocalDate expirationDate, LocalDate dueDate) {
         super(bankAccountId,expirationDate);
         this.availableBalance = availableBalance;
         this.dueDate = dueDate;

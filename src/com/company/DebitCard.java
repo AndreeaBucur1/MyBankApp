@@ -3,30 +3,23 @@ package com.company;
 import java.time.LocalDate;
 
 public class DebitCard extends Card{
-    public float overDraftLimit;
-    public float transactionCommission;
+    private final float overDraftLimit = 5000;
+    private final float transactionCommission = 0.5f;
 
-    public DebitCard(int bankAccountId, LocalDate expirationDate, float overDraftLimit, float transactionCommission) {
+    public DebitCard(int bankAccountId, LocalDate expirationDate) {
         super( bankAccountId, expirationDate);
-        this.overDraftLimit = overDraftLimit;
-        this.transactionCommission = transactionCommission;
     }
 
     public float getOverDraftLimit() {
         return overDraftLimit;
     }
 
-    public void setOverDraftLimit(float overDraftLimit) {
-        this.overDraftLimit = overDraftLimit;
-    }
 
     public float getTransactionCommission() {
         return transactionCommission;
     }
 
-    public void setTransactionCommission(float transactionCommission) {
-        this.transactionCommission = transactionCommission;
-    }
+
 
     @Override
     public String toString() {

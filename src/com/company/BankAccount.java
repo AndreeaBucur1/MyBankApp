@@ -8,14 +8,15 @@ public class BankAccount {
     protected static int id = 0;
     protected ArrayList<Card> cards;
     protected String IBAN;
-    protected float balance;
+    protected static long nrIban = 10000000;
+    protected float balance = 0;
     protected LocalDate openingDate;
 
-    public BankAccount(ArrayList<Card> cards, String IBAN, float balance, LocalDate openingDate) {
+    public BankAccount( LocalDate openingDate) {
         cards = new ArrayList<>();
         this.bankAccountId = ++id;
         this.cards = cards;
-        this.IBAN = IBAN;
+        this.IBAN = "ROMBA" + (nrIban++);
         this.balance = balance;
         this.openingDate = openingDate;
     }
@@ -83,4 +84,6 @@ public class BankAccount {
     public void addCard(Card card) {
         cards.add(card);
     }
+
+
 }

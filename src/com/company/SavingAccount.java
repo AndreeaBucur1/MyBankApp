@@ -4,9 +4,30 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SavingAccount extends BankAccount {
-    private float commissionPct;
+    private float commissionPct = 1.5f;
 
-    public SavingAccount(int bankAccountId, ArrayList<Card> cards, String IBAN, float balance, LocalDate openingDate) {
-        super( cards, IBAN, balance, openingDate);
+    public float getCommissionPct() {
+        return commissionPct;
+    }
+
+    public void setCommissionPct(float commissionPct) {
+        this.commissionPct = commissionPct;
+    }
+
+    @Override
+    public String toString() {
+        return "SavingAccount{" +
+                "bankAccountId=" + bankAccountId +
+                ", cards=" + cards +
+                ", IBAN='" + IBAN + '\'' +
+                ", balance=" + balance +
+                ", openingDate=" + openingDate +
+                ", commissionPct=" + commissionPct +
+                '}';
+    }
+
+    public SavingAccount(LocalDate openingDate) {
+        super(openingDate);
+        this.commissionPct = commissionPct;
     }
 }
