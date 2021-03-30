@@ -15,6 +15,37 @@ public class Controller {
     ArrayList<DebitCard> debitCards = new ArrayList<>();
     ArrayList<SavingAccount> savingAccounts = new ArrayList<>();
 
+    public void displayClients(ArrayList<Client> clients){
+        System.out.println("Clients: ");
+        for(Client client : clients){
+            System.out.println(client);
+        }
+        System.out.println();
+    }
+
+    public void displayBankAccounts(ArrayList<BankAccount> bankAccounts){
+        System.out.println("Bank accounts: ");
+        for(BankAccount bankAccount : bankAccounts){
+            System.out.println(bankAccount);
+        }
+        System.out.println();
+    }
+
+    public void displayTransactions(ArrayList<Transaction> transactions){
+        System.out.println("Transactions");
+        for(Transaction transaction : transactions){
+            System.out.println(transaction);
+        }
+        System.out.println();
+    }
+
+    public void displayAppAccounts(ArrayList<AppAccount> appAccounts){
+        System.out.println("App accounts: ");
+        for(AppAccount appAccount : appAccounts){
+            System.out.println(appAccount);
+        }
+        System.out.println();
+    }
 
     //Sort clients list by last name
     public static void sort(ArrayList<Client> list)
@@ -23,6 +54,14 @@ public class Controller {
         list.sort((o1, o2)
                 -> o1.getLastName().compareTo(
                 o2.getLastName()));
+    }
+
+    public void displayCards(ArrayList<Card> cards){
+        System.out.println("Cards: ");
+        for(Card card : cards){
+            System.out.println(card);
+        }
+        System.out.println();
     }
 
     

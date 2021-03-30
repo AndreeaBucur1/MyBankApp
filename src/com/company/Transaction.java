@@ -19,6 +19,14 @@ public class Transaction {
         this.sold = sold;
     }
 
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
+    }
+
     public String getTransactionName() {
         return transactionName;
     }

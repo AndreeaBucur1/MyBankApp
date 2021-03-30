@@ -7,9 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
         Controller controller = new Controller();
-        controller.addClient("Lucy","King","0761714909","lucyking@yahoo.com",123456789);
-        controller.addClient("Tom","Smith","0768952147","tomsmith@yahoo.com",123456798);
-
 
         ArrayList<Client> clients = controller.getClients();
         ArrayList<BankAccount> bankAccounts = controller.getBankAccounts();
@@ -19,8 +16,11 @@ public class Main {
         ArrayList<SavingAccount> savingAccounts = controller.getSavingAccounts();
         ArrayList<Transaction> transactions = controller.getTransactions();
 
-        controller.addBankAccount( 1);
+
+        controller.addClient("Lucy","King","0761714909","lucyking@yahoo.com",123456789);
+        controller.addClient("Tom","Smith","0768952147","tomsmith@yahoo.com",123456798);
         controller.addClient("Olivia","Green","0789652475","oliviagreen@yahoo.com",123456879);
+        controller.addBankAccount( 1);
         controller.addBankAccount( 3);
         controller.addSavingAccount(1);
         controller.addCreditCard(2);
@@ -30,47 +30,29 @@ public class Main {
         controller.withdraw(2,100);
         controller.withdraw(1,1000);
         controller.transfer(2,1,100);
-
-
-        System.out.println();
-        System.out.println("Banck Accounts:");
-        for(BankAccount bankAccount : bankAccounts){
-            System.out.println(bankAccount);
-        }
-
-
-        System.out.println();
-        System.out.println("Cards: ");
-        for(Card card : cards){
-            System.out.println(card);
-        }
-
-        System.out.println();
-
-         //Sorted arraylist
-
-        controller.sort(clients);
-
-
-        System.out.println("Clients:");
-        for(Client client : clients){
-            System.out.println(client);
-        }
-        System.out.println();
-        System.out.println("App Accounts: ");
         controller.addAppAccount(1);
-        for(AppAccount appAccount : appAccounts){
-            System.out.println(appAccount);
-        }
-        System.out.println();
-
-        for(Transaction transaction : transactions){
-            System.out.println(transaction);
-        }
 
 
 
+        controller.displayBankAccounts(bankAccounts);
+        controller.displayCards(cards);
 
+        //Sort clients by last name
+        controller.sort(clients);
+        controller.displayClients(clients);
+
+        controller.displayTransactions(transactions);
+        controller.displayAppAccounts(appAccounts);
+
+        String msg1 = new String();
+        String msg2 = new String();
+        msg1 = getMsg1("msg1");
+        msg2 = getMsg1("msg2");
+
+    }
+
+    private static String getMsg1(String msg1) {
+        return msg1 + "5";
     }
 
 }

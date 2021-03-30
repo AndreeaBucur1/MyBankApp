@@ -17,4 +17,19 @@ public class MoneyTransfer extends Transaction{
         super(bankAccountId, transactionName, date, sold);
         this.transferToBankAccountId = transferToBankAccountId;
     }
+
+    @Override
+    public String toString() {
+        return "MoneyTransfer{" +
+                " transferFromBankAccountId = " + super.getBankAccountId() +
+                " ,transferToBankAccountId = " + transferToBankAccountId +
+                " ,transactionId = " + super.getTransactionId() +
+                " , transactionName = " + super.getTransactionName() + '\'' +
+                " , bankAccountId = " + super.getBankAccountId() +
+                " , date = " + super.getDate() +
+                " , sold = " + getSold() +
+                '}';
+
+
+    }
 }
