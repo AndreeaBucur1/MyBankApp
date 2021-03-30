@@ -10,6 +10,7 @@
  *DebitCard(extends Card)
  *AccountStatement
  *Transaction
+ *Transfer(extents Transaction)
  
  
  
@@ -26,5 +27,7 @@
    *add funds to an account
    *add appAccount
    *withdraw money from account
-   *add transactions
+   *make transactions
+   *transfer money from an account to another
+   
  
