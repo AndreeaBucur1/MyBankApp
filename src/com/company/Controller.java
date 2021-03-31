@@ -64,6 +64,22 @@ public class Controller {
         System.out.println();
     }
 
+    public AppAccount findAppAccountByAccessToken(int accessToken){
+        for(AppAccount appAccount : appAccounts){
+            if(appAccount.getAccessToken() == accessToken)
+                    return appAccount;
+        }
+        return null;
+    }
+
+    public Client findClientByAppAccountId(int appAccountId){
+        for(Client client : clients){
+            if(client.getAppAccountId() == appAccountId){
+                return client;
+            }
+        }
+        return null;
+    }
     
     public ArrayList<Client> getClients() {
         return clients;
