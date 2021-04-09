@@ -298,24 +298,47 @@ public class Controller {
         }
     }
 
-    public void withdraw(int bankAccountId,int sum){
+    public void payment(int bankAccountId,float sum){
         BankAccount bankAccount = findBankAccount(bankAccountId);
-        if (bankAccount != null){
-            if(sum > bankAccount.getBalance()){
-                System.out.println("Insufficient funds");
-                String transactionName = "Failed attempt to withdraw money";
-                Transaction transaction = new Transaction(bankAccountId,transactionName, LocalDate.now(),0);
-                transactions.add(transaction);
-            }
-            else{
-                String transactionName = "Money withdrawal";
-                bankAccount.setBalance(bankAccount.getBalance() - sum);
-                Transaction transaction = new Transaction(bankAccountId,transactionName, LocalDate.now(),sum);
-                transactions.add(transaction);
-            }
-        }
+        if(sum > bankAccount.getBalance())
+            System.out.println("Insufficient funds");
         else{
-            System.out.println("This account does not exist");
+            bankAccount.setBalance(bankAccount.getBalance() - sum);
+            String transactionName = "Payment";
+            Transaction transaction = new Transaction(bankAccountId,transactionName,LocalDate.now(), ((float) sum));
+            transactions.add(transaction);
+        }
+    }
+
+    public Card findCardById(int cardId){
+        for(Card card : allCards){
+            if(card.getCardId() == cardId)
+                return card;
+
+        }
+        return null;
+    }
+
+    public void withdraw(int cardId,int sum){
+        Card card = findCardById(cardId);
+        BankAccount bankAccount = findBankAccount(card.getBankAccountId());
+        if (bankAccount != null) {
+            if (card instanceof CreditCard) {
+                System.out.println("You can only make payments with a credit card");
+            } else {
+
+                if (sum > bankAccount.getBalance()) {
+                    System.out.println("Insufficient funds");
+                    String transactionName = "Failed attempt to withdraw money";
+                    Transaction transaction = new Transaction(bankAccount.getBankAccountId(), transactionName, LocalDate.now(), 0);
+                    transactions.add(transaction);
+                } else {
+                    String transactionName = "Money withdrawal";
+                    bankAccount.setBalance(bankAccount.getBalance() - sum);
+                    Transaction transaction = new Transaction(bankAccount.getBankAccountId(), transactionName, LocalDate.now(), sum);
+                    transactions.add(transaction);
+                }
+            }
         }
     }
 
