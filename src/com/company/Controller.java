@@ -14,6 +14,8 @@ public class Controller {
     ArrayList<CreditCard> creditCards = new ArrayList<>();
     ArrayList<DebitCard> debitCards = new ArrayList<>();
     ArrayList<SavingAccount> savingAccounts = new ArrayList<>();
+    ArrayList<BankAccount> allBankAccounts = new ArrayList<>();
+    ArrayList<Card> allCards = new ArrayList<>();
 
     public void displayClients(ArrayList<Client> clients){
         System.out.println("Clients: ");
@@ -80,7 +82,7 @@ public class Controller {
         }
         return null;
     }
-    
+
     public ArrayList<Client> getClients() {
         return clients;
     }
@@ -146,7 +148,7 @@ public class Controller {
     }
 
     public BankAccount findBankAccount(int id){
-        for(BankAccount bankAccount : bankAccounts){
+        for(BankAccount bankAccount : allBankAccounts){
             if (bankAccount.getBankAccountId() == id)
                 return bankAccount;
         }
@@ -167,6 +169,7 @@ public class Controller {
             bankAccounts.add(bankAccount);
             Client client = findClient(clientId);
             client.addBankAccount(bankAccount);
+            allBankAccounts.add(bankAccount);
 
         }
         else{
@@ -190,6 +193,7 @@ public class Controller {
             cards.add(card);
             BankAccount bankAccount = findBankAccount(bankAccountId);
             bankAccount.addCard(card);
+            allCards.add(card);
         }
         else{
             System.out.println("Bank Account does not exist");
@@ -238,6 +242,7 @@ public class Controller {
             creditCards.add(creditCard);
             BankAccount bankAccount = findBankAccount(bankAccountId);
             bankAccount.addCard(creditCard);
+            allCards.add(creditCard);
         }
         else{
             System.out.println("Cannot add credit card. This bank account does not exist");
@@ -251,6 +256,7 @@ public class Controller {
             debitCards.add(debitCard);
             BankAccount bankAccount = findBankAccount(bankAccountId);
             bankAccount.addCard(debitCard);
+            allCards.add(debitCard);
         }
         else{
             System.out.println("Cannot add debit card. This bank account does not exist.");
@@ -264,10 +270,19 @@ public class Controller {
             SavingAccount savingAccount = new SavingAccount(openingDate);
             savingAccounts.add(savingAccount);
             client.addBankAccount(savingAccount);
+            allBankAccounts.add(savingAccount);
         }
         else {
             System.out.println("Cannot add this saving account. Client does not exist");
         }
+    }
+
+    public BankAccount findBankAccountByIban(String iban){
+        for(BankAccount bankAccount : allBankAccounts){
+            if(bankAccount.getIBAN().compareTo(iban) == 0)
+                return bankAccount;
+        }
+        return null;
     }
 
     public void addFunds(int bankAccountId,int sum){
@@ -304,7 +319,42 @@ public class Controller {
         }
     }
 
-    public void transfer(int transferFromBankAccountId,int transferToBankAccountId,int sum){
+    public ArrayList<BankAccount> getAllBankAccounts() {
+        return allBankAccounts;
+    }
+
+    public void setAllBankAccounts(ArrayList<BankAccount> allBankAccounts) {
+        this.allBankAccounts = allBankAccounts;
+    }
+
+    public ArrayList<Card> getAllCards() {
+        return allCards;
+    }
+
+    public void setAllCards(ArrayList<Card> allCards) {
+        this.allCards = allCards;
+    }
+
+    public Card findCardByNumber(long cardNumber){
+        for(Card card : allCards)
+            if(card.getCardNumber() == cardNumber)
+                return card;
+        return null;
+    }
+
+    public float checkBalance(int bankAccountId){
+        for(BankAccount bankAccount : allBankAccounts){
+            if(bankAccount.getBankAccountId() == bankAccountId)
+                return bankAccount.getBalance();
+        }
+        return 0;
+    }
+
+//    public BankAccount findBankAccountByCardId(int cardId){
+//        for()
+//    }
+
+    public void transfer(int transferFromBankAccountId,int transferToBankAccountId,float sum){
         BankAccount transferFrom = findBankAccount(transferFromBankAccountId);
         BankAccount transferTo = findBankAccount(transferToBankAccountId);
         if(transferFrom != null && transferTo != null){

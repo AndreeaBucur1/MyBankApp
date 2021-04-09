@@ -3,12 +3,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AppAccountServices {
-    public void firstOption(ArrayList<AppAccount> appAccounts,ArrayList<Client> clients){
+    public void firstOption(Controller controller){
 
-        Controller controller = new Controller();
-        controller.setAppAccounts(appAccounts);
-        controller.setClients(clients);
-        System.out.println(appAccounts);
         System.out.println("Enter your access token: ");
         Scanner scan = new Scanner(System.in);
         int accessToken = scan.nextInt();
@@ -31,13 +27,53 @@ public class AppAccountServices {
 
                 int newOption = scan.nextInt();
                 if (newOption == 1) {
-                    ArrayList<BankAccount> yourBankAccounts = client.getBankAccounts();
-                    for (BankAccount bankAccount : yourBankAccounts) {
+                    ArrayList<BankAccount> clientBankAccounts = client.getBankAccounts();
+                    for (BankAccount bankAccount : clientBankAccounts) {
                         System.out.println("Bank account: " + bankAccount.getIBAN());
                         System.out.println("Balance: " + bankAccount.getBalance());
                         System.out.println();
                     }
 
+                }
+                else if(newOption == 2){
+                    ArrayList<BankAccount> clientBankAccounts = client.getBankAccounts();
+                    int nr = 0;
+                    System.out.println("This are your bank accounts:");
+                    for(BankAccount bankAccount : clientBankAccounts){
+                        nr++;
+                        System.out.println(nr + " " + bankAccount);
+                    }
+                    System.out.println("Enter the number of the bank account you want to transfer money from");
+                    int cardNr = scan.nextInt();
+                    if(cardNr > clientBankAccounts.size()){
+                        System.out.println("Invalid option");
+                    }
+                    else{
+                        BankAccount transferMoneyFrom = clientBankAccounts.get(cardNr - 1);
+                        System.out.println(transferMoneyFrom);
+                        System.out.println("Enter the IBAN of the bank account you want to transfer money to");
+                        String iban = scan.next();
+                        BankAccount transferMoneyTo = controller.findBankAccountByIban(iban);
+                        if(transferMoneyTo == null){
+                            System.out.println("Wrong IBAN");
+                        }
+                        else{
+                            System.out.println("Enter the sum you want to send");
+                            float sum = scan.nextFloat();
+
+                            System.out.println(transferMoneyFrom);
+                            System.out.println(transferMoneyTo);
+
+                            controller.transfer(transferMoneyFrom.getBankAccountId(),transferMoneyTo.getBankAccountId(),sum);
+                            System.out.println(transferMoneyFrom);
+                            System.out.println(transferMoneyTo);
+                        }
+
+                    }
+
+                }
+                else if(newOption == 3){
+                    System.exit(0);
                 }
             }
         }
