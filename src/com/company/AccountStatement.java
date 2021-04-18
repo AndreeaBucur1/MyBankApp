@@ -2,6 +2,7 @@ package com.company;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class AccountStatement {
     private int AccountStatementId;
@@ -9,10 +10,21 @@ public class AccountStatement {
     private int bankAccountId;
     private LocalDate date;
 
-    public AccountStatement(int accountStatementId, int bankAccountId, LocalDate date) {
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    private ArrayList<Transaction> transactions;
+
+    public AccountStatement(int bankAccountId, LocalDate date,ArrayList<Transaction> transactions) {
         AccountStatementId = ++id;
         this.bankAccountId = bankAccountId;
         this.date = date;
+        this.transactions = transactions;
     }
 
     public int getAccountStatementId() {
@@ -53,6 +65,7 @@ public class AccountStatement {
                 "AccountStatementId=" + AccountStatementId +
                 ", bankAccountId=" + bankAccountId +
                 ", date=" + date +
+                ",transactions: " + transactions +
                 '}';
     }
 }

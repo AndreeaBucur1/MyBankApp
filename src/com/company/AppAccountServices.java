@@ -27,7 +27,8 @@ public class AppAccountServices {
                         System.out.println();
                         System.out.println("Option 1: Check balance");
                         System.out.println("Option 2: Transfer money");
-                        System.out.println("Option 3: Exit");
+                        System.out.println("Option 3: Get an account statement");
+                        System.out.println("Option 4: Exit");
 
 
                         newOption = scan.nextInt();
@@ -73,10 +74,29 @@ public class AppAccountServices {
 
                             }
 
-                        } else if (newOption == 3) {
+                        }
+                        else if(newOption == 3) {
+                            System.out.println("Enter the number of the month: ");
+                            int month = scan.nextInt();
+                            System.out.println("This are your bank accounts:");
+                            for(BankAccount bankAccount : client.getBankAccounts())
+                                System.out.println("1" + bankAccount);
+                            System.out.println("Enter the number of the account");
+                            int bankAccountNr = scan.nextInt();
+                            BankAccount bankAccount = client.getBankAccounts().get(bankAccountNr-1);
+                            AccountStatement accountStatement = controller.accountStatement(bankAccount.getBankAccountId(),month);
+                            if(accountStatement == null)
+                                System.out.println("Nicio tranzactie in aceasta luna");
+                            else
+                                System.out.println(accountStatement);
+
+
+
+                        }
+                        else if (newOption == 4) {
                             System.out.println("You signed out of your account");
                         }
-                    } while (newOption != 3);
+                    } while (newOption != 4);
                 }
             } else {
                 System.out.println("Wrong access token");

@@ -48,12 +48,15 @@ public class Main {
 //        controller.displayBankAccounts(bankAccounts);
 //        controller.displayCards(cards);
 //
-//        //Sort clients by last name
-//        controller.sort(clients);
+        //Sort clients by last name
+        controller.sort(clients);
 //        controller.displayClients(clients);
 //
 //        controller.displayTransactions(transactions);
 //        controller.displayAppAccounts(appAccounts);
+
+        LocalDate date = LocalDate.now();
+        System.out.println(date.getMonth());
 
         int option;
         do {
@@ -79,5 +82,6 @@ public class Main {
         controller.displayTransactions(controller.getTransactions());
 
     }
+
 
 }

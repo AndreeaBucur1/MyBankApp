@@ -401,6 +401,20 @@ public class Controller {
         }
     }
 
+    public AccountStatement accountStatement(int bankAccountId,int month) {
+        ArrayList<Transaction> accountTransactions = new ArrayList<>();
+        for (Transaction transaction : transactions)
+            if (transaction.getBankAccountId() == bankAccountId) {
+                int date = transaction.getDate().getMonthValue();
+                if (date == month)
+                    accountTransactions.add(transaction);
+
+            }
+        AccountStatement accountStatement = new AccountStatement(bankAccountId, LocalDate.now(), accountTransactions);
+        accountStatements.add(accountStatement);
+        return accountStatement;
+    }
+
 
 
 }
