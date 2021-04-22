@@ -37,7 +37,19 @@ public class Client{
         this.PNC = PNC;
     }
 
-    public Client(ArrayList<BankAccount> bankAccounts, String firstName, String lastName, String phoneNumber, String email, int appAccountId, long PNC) {
+    public Client(int clientId, String firstName, String lastName, String phoneNumber, String email, int appAccountId, long PNC) {
+        bankAccounts = new ArrayList<>();
+        this.clientId = clientId;
+        this.bankAccounts = bankAccounts;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.appAccountId = appAccountId;
+        this.PNC = PNC;
+    }
+
+    public Client(String firstName, String lastName, String phoneNumber, String email, long PNC) {
         bankAccounts = new ArrayList<>();
         this.clientId = ++id;
         this.bankAccounts = bankAccounts;

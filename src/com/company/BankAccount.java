@@ -8,6 +8,15 @@ public class BankAccount {
     protected static int id = 0;
     protected ArrayList<Card> cards;
     protected String IBAN;
+
+    public BankAccount(int bankAccountId, String IBAN, float balance, LocalDate openingDate,int clientId) {
+        this.bankAccountId = bankAccountId;
+        this.cards = cards;
+        this.IBAN = IBAN;
+        this.balance = balance;
+        this.openingDate = openingDate;
+    }
+
     protected static long nrIban = 10000000;
     protected float balance = 0;
     protected LocalDate openingDate;

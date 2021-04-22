@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class CardServices {
     public void secondOption(Controller controller) {
+        WriteToFiles writeToFiles = new WriteToFiles();
         boolean okCard = false;
         do {
             controller.displayCards(controller.getAllCards());
@@ -26,6 +27,7 @@ public class CardServices {
                     if (option == 1) {
 //                BankAccount bankAccount = controller.findBankAccount(card.getBankAccountId());
                         System.out.println("Balance: " + controller.checkBalance(card.getBankAccountId()));
+                        writeToFiles.writeToAudit("Check Balance");
                     } else if (option == 2) {
                         System.out.println("Enter the sum you want to withdraw: ");
                         int sum = scan.nextInt();
@@ -33,6 +35,7 @@ public class CardServices {
                         System.out.println(bankAccount);
                         controller.withdraw(card.getCardId(), sum);
                         System.out.println(bankAccount);
+                        writeToFiles.writeToAudit("Money withdrawal");
 
                     } else if (option == 3) {
                         System.out.println("Enter the sum you want to add to your account");
@@ -41,6 +44,7 @@ public class CardServices {
                         System.out.println(bankAccount);
                         controller.addFunds(card.getBankAccountId(),sum);
                         System.out.println(bankAccount);
+                        writeToFiles.writeToAudit("Add funds");
                     }
                     else  if(option == 4){
                         System.out.println("Enter the sum you want to pay with your card");
@@ -49,9 +53,11 @@ public class CardServices {
                         System.out.println(bankAccount);
                         controller.payment(card.getBankAccountId(),sum);
                         System.out.println(bankAccount);
+                        writeToFiles.writeToAudit("Payment");
                     }
                     else if(option == 5){
                         System.out.println("You removed your card");
+                        writeToFiles.writeToAudit("Remove card");
                     }
 
                 } while (option != 5);

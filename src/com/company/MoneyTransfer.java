@@ -18,6 +18,11 @@ public class MoneyTransfer extends Transaction{
         this.transferToBankAccountId = transferToBankAccountId;
     }
 
+    public MoneyTransfer(int transactionId, String transactionName, int bankAccountId, LocalDate date, float sold, int transferToBankAccountId) {
+        super(transactionId, transactionName, bankAccountId, date, sold);
+        this.transferToBankAccountId = transferToBankAccountId;
+    }
+
     @Override
     public String toString() {
         return "MoneyTransfer{" +

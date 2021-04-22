@@ -51,6 +51,14 @@ public class Transaction {
         this.date = date;
     }
 
+    public Transaction(int transactionId, String transactionName, int bankAccountId, LocalDate date, float sold) {
+        this.transactionId = transactionId;
+        this.transactionName = transactionName;
+        this.bankAccountId = bankAccountId;
+        this.date = date;
+        this.sold = sold;
+    }
+
     public float getSold() {
         return sold;
     }

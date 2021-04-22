@@ -1,7 +1,9 @@
 package com.company;
-import java.time.LocalDate;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
@@ -18,21 +20,21 @@ public class Main {
         ArrayList<Transaction> transactions = controller.getTransactions();
 
 
-        controller.addClient("Lucy", "King", "0761714909", "lucyking@yahoo.com", 123456789);
-        controller.addClient("Tom", "Smith", "0768952147", "tomsmith@yahoo.com", 123456798);
-        controller.addClient("Olivia", "Green", "0789652475", "oliviagreen@yahoo.com", 123456879);
-        controller.addBankAccount(1);
-        controller.addBankAccount(3);
-        controller.addSavingAccount(1);
-        controller.addCreditCard(2);
-        controller.addDebitCard(2);
-        controller.addDebitCard(1);
-        controller.addFunds(2, 1000);
-        controller.withdraw(2, 100);
-//        controller.withdraw(1, 1000);
-        controller.transfer(2, 1, 100);
-        controller.addAppAccount(1);
-//        controller.displayAppAccounts(appAccounts);
+
+//        controller.addFunds(2, 1000);
+//        controller.withdraw(2, 100);
+//
+
+        ReadFromFile readFromFile = new ReadFromFile();
+
+        readFromFile.readClients("src/com/company/clients.csv",controller);
+        controller.displayClients(controller.getClients());
+
+        readFromFile.readAppAccounts("src/com/company/appAccounts.csv",controller);
+        controller.displayAppAccounts(appAccounts);
+
+//        readFromFile.readBankAccounts("src/com/company/bankAccounts.csv",controller);
+        controller.displayBankAccounts(bankAccounts);
 
         controller.setTransactions(transactions);
         controller.setBankAccounts(bankAccounts);
@@ -41,22 +43,10 @@ public class Main {
         controller.setAppAccounts(appAccounts);
         controller.setSavingAccounts(savingAccounts);
         controller.setCreditCards(creditCards);
-//        controller.displayCards(controller.getAllCards());
 
-//
-//
-//        controller.displayBankAccounts(bankAccounts);
-//        controller.displayCards(cards);
-//
-        //Sort clients by last name
         controller.sort(clients);
-//        controller.displayClients(clients);
-//
-//        controller.displayTransactions(transactions);
-//        controller.displayAppAccounts(appAccounts);
+        WriteToFiles writeToFile = new WriteToFiles();
 
-        LocalDate date = LocalDate.now();
-        System.out.println(date.getMonth());
 
         int option;
         do {
@@ -79,7 +69,25 @@ public class Main {
 
 
         }while(option != 4);
-        controller.displayTransactions(controller.getTransactions());
+
+
+        try {
+            FileWriter writeToClients = new FileWriter("src/com/company/clients.csv",false);
+            FileWriter writeToAppAccounts = new FileWriter("src/com/company/appAccounts.csv",false);
+            FileWriter writeToBankAccounts = new FileWriter("src/com/company/bankAccounts.csv",false);
+
+            writeToAppAccounts.close();
+            writeToClients.close();
+            writeToBankAccounts.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        writeToFile.writeToClients(clients);
+        writeToFile.writeToAppAccounts(appAccounts,controller);
+//        writeToFile.writeToBankAccounts(bankAccounts,controller);
+
+
 
     }
 

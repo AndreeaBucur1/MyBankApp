@@ -157,7 +157,7 @@ public class Controller {
 
 
     public void addClient( String firstName, String lastName, String phoneNumber, String email, long PNC){
-        Client client = new Client(null, firstName, lastName, phoneNumber, email, 0,PNC);
+        Client client = new Client(firstName, lastName, phoneNumber, email,PNC);
         clients.add(client);
     }
 
@@ -168,7 +168,7 @@ public class Controller {
             BankAccount bankAccount = new BankAccount( openingDate);
             bankAccounts.add(bankAccount);
             Client client = findClient(clientId);
-            client.addBankAccount(bankAccount);
+            client.getBankAccounts().add(bankAccount);
             allBankAccounts.add(bankAccount);
 
         }
@@ -176,6 +176,17 @@ public class Controller {
             System.out.println("Client does not exist!");
         }
     }
+
+    public Client findClientByBankAccountId(int bankAccountId){
+        for(Client client : clients){
+            for(BankAccount bankAccount : client.getBankAccounts()){
+                if(bankAccount.getBankAccountId() == bankAccountId)
+                    return client;
+            }
+        }
+        return null;
+    }
+
 
     public ArrayList<AppAccount> getAppAccounts() {
         return appAccounts;
@@ -185,20 +196,20 @@ public class Controller {
         this.appAccounts = appAccounts;
     }
 
-    public void addCard(int bankAccountId){
-        if(findBankAccount(bankAccountId) != null){
-            LocalDate expirationDate = LocalDate.now();
-            expirationDate = expirationDate.plusYears(4);
-            Card card = new Card(bankAccountId,expirationDate);
-            cards.add(card);
-            BankAccount bankAccount = findBankAccount(bankAccountId);
-            bankAccount.addCard(card);
-            allCards.add(card);
-        }
-        else{
-            System.out.println("Bank Account does not exist");
-        }
-    }
+//    public void addCard(int bankAccountId){
+//        if(findBankAccount(bankAccountId) != null){
+//            LocalDate expirationDate = LocalDate.now();
+//            expirationDate = expirationDate.plusYears(4);
+//            Card card = new Card(bankAccountId,expirationDate);
+//            cards.add(card);
+//            BankAccount bankAccount = findBankAccount(bankAccountId);
+//            bankAccount.addCard(card);
+//            allCards.add(card);
+//        }
+//        else{
+//            System.out.println("Bank Account does not exist");
+//        }
+//    }
 
     public void addAppAccount(int clientId){
         if(findClient(clientId) != null) {

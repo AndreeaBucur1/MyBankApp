@@ -5,6 +5,13 @@ public class AppAccount {
     private static int id = 0;
     private int accessToken;
     private static int token = 100000;
+
+    public AppAccount(int appAccountId, int accessToken, String password) {
+        this.appAccountId = appAccountId;
+        this.accessToken = accessToken;
+        this.password = password;
+    }
+
     private String password;
 
     public AppAccount(String password) {

@@ -10,6 +10,16 @@ public class SavingAccount extends BankAccount {
         return commissionPct;
     }
 
+    public SavingAccount(int bankAccountId, String IBAN, float balance, LocalDate openingDate, float commissionPct,int clientId) {
+        super(bankAccountId, IBAN, balance, openingDate, clientId);
+        this.commissionPct = commissionPct;
+    }
+
+    public SavingAccount(LocalDate openingDate, float commissionPct) {
+        super(openingDate);
+        this.commissionPct = commissionPct;
+    }
+
     public void setCommissionPct(float commissionPct) {
         this.commissionPct = commissionPct;
     }

@@ -13,6 +13,11 @@ public class DebitCard extends Card{
     public float getOverDraftLimit() {
         return overDraftLimit;
     }
+
+//    public DebitCard(int cardId, int bankAccountId, long cardNumber, int CVV, LocalDate expirationDate) {
+//        super(cardId, bankAccountId, cardNumber, CVV, expirationDate);
+//    }
+
     public float getTransactionCommission() {
         return transactionCommission;
     }

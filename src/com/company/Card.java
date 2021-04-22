@@ -2,7 +2,7 @@ package com.company;
 
 import java.time.LocalDate;
 
-public class Card {
+public abstract class Card {
     protected int cardId;
     private static int id = 0;
     private static int cvv = 1000;
