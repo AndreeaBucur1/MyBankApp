@@ -33,6 +33,14 @@ public class Controller {
         System.out.println();
     }
 
+    public void displaySavingAccounts(ArrayList<SavingAccount> savingAccounts){
+        System.out.println("Saving accounts: ");
+        for(SavingAccount savingAccount : savingAccounts){
+            System.out.println(savingAccount);
+        }
+        System.out.println();
+    }
+
     public void displayTransactions(ArrayList<Transaction> transactions){
         System.out.println("Transactions");
         for(Transaction transaction : transactions){
@@ -60,11 +68,28 @@ public class Controller {
 
     public void displayCards(ArrayList<Card> cards){
         System.out.println("Cards: ");
-        for(Card card : cards){
+        for(Card card : allCards){
             System.out.println(card);
         }
         System.out.println();
     }
+
+    public void displayCreditCards(ArrayList<CreditCard>creditCards){
+        System.out.println("Credit cards: ");
+        for(CreditCard creditCard : creditCards){
+            System.out.println(creditCard);
+        }
+        System.out.println();
+    }
+    public void displayDebitCards(ArrayList<DebitCard> debitCards){
+        System.out.println("Debit cards: ");
+        for(DebitCard debitCard : debitCards)
+            System.out.println(debitCard);
+        System.out.println();
+    }
+
+
+
 
     public AppAccount findAppAccountByAccessToken(int accessToken){
         for(AppAccount appAccount : appAccounts){

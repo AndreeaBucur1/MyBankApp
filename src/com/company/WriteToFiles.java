@@ -63,11 +63,40 @@ public class WriteToFiles {
             FileWriter writeToBankAccounts = new FileWriter("src/com/company/bankAccounts.csv",true);
             for(BankAccount bankAccount : bankAccounts){
                 Client client = controller.findClientByBankAccountId(bankAccount.getBankAccountId());
-                String bankAcc = bankAccount.getBankAccountId() + "," + ',' + bankAccount.getIBAN() + ',' + bankAccount.getBalance() + ',' + bankAccount.getOpeningDate() + ',' +  client.getClientId();
+                String bankAcc = bankAccount.getBankAccountId() + "," + bankAccount.getIBAN() + ',' + bankAccount.getBalance() + ',' + bankAccount.getOpeningDate() + ',' +  client.getClientId();
                 writeToBankAccounts.write(bankAcc);
                 writeToBankAccounts.write('\n');
             }
             writeToBankAccounts.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToSavingAccounts(ArrayList<SavingAccount> savingAccounts,Controller controller) {
+        try{
+            FileWriter writeToSavingAccounts = new FileWriter("src/com/company/savingAccounts.csv",true);
+            for(SavingAccount savingAccount : savingAccounts){
+                Client client = controller.findClientByBankAccountId(savingAccount.getBankAccountId());
+                String bankAcc = savingAccount.getBankAccountId() + "," + savingAccount.getIBAN() + ',' + savingAccount.getBalance() + ',' + savingAccount.getOpeningDate() + ','  + savingAccount.getCommissionPct() + ',' +  client.getClientId();
+                writeToSavingAccounts.write(bankAcc);
+                writeToSavingAccounts.write('\n');
+            }
+            writeToSavingAccounts.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToCreditCards(ArrayList<CreditCard> creditCards,Controller controller){
+        try{
+            FileWriter writeToCreditCards = new FileWriter("src/com/company/creditCards.csv",true);
+            for(CreditCard creditCard : creditCards){
+                String creditC = creditCard.getCardId() + "," + creditCard.getBankAccountId() + ',' + creditCard.getCardNumber() + ',' + creditCard.getCVV() + ',' + creditCard.getExpirationDate() + ',' + creditCard.getAvailableBalance() + ',' + creditCard.getExpirationDate();
+                writeToCreditCards.write(creditC);
+                writeToCreditCards.write('\n');
+            }
+            writeToCreditCards.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

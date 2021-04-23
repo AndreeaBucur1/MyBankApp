@@ -6,11 +6,11 @@ public class CreditCard extends Card{
     private float availableBalance = 10000;
     private LocalDate dueDate;
 
-//    public CreditCard(int cardId, int bankAccountId, long cardNumber, int CVV, LocalDate expirationDate, float availableBalance, LocalDate dueDate) {
-//        super(cardId, bankAccountId, cardNumber, CVV, expirationDate);
-//        this.availableBalance = availableBalance;
-//        this.dueDate = dueDate;
-//    }
+    public CreditCard(int cardId, int bankAccountId, long cardNumber, int CVV, LocalDate expirationDate, float availableBalance, LocalDate dueDate) {
+        super(cardId, bankAccountId, cardNumber, CVV, expirationDate);
+        this.availableBalance = availableBalance;
+        this.dueDate = dueDate;
+    }
 
     public CreditCard(int bankAccountId, LocalDate expirationDate, float availableBalance, LocalDate dueDate) {
         super(bankAccountId, expirationDate);

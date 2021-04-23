@@ -1,7 +1,6 @@
 package com.company;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class SavingAccount extends BankAccount {
     private float commissionPct = 1.5f;

@@ -12,6 +12,8 @@ public abstract class Card {
     protected int CVV;
     protected LocalDate expirationDate;
 
+
+
     @Override
     public String toString() {
         return "Card{" +
@@ -66,5 +68,16 @@ public abstract class Card {
         this.cardNumber = number++;
         this.CVV = ++cvv;
         this.expirationDate = expirationDate;
+    }
+
+    public Card(int cardId, int bankAccountId, long cardNumber, int CVV, LocalDate expirationDate) {
+        this.cardId = cardId;
+        this.bankAccountId = bankAccountId;
+        this.cardNumber = cardNumber;
+        this.CVV = CVV;
+        this.expirationDate = expirationDate;
+        id++;
+        number++;
+        cvv++;
     }
 }
