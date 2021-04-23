@@ -57,21 +57,21 @@ public class WriteToFiles {
 
 
     }
-//
-//    public void writeToBankAccounts(ArrayList<BankAccount> bankAccounts,Controller controller){
-//        try {
-//            FileWriter writeToBankAccounts = new FileWriter("src/com/company/bankAccounts.csv",true);
-//            for(BankAccount bankAccount : bankAccounts){
-//                Client client = controller.findClientByBankAccountId(bankAccount.getBankAccountId());
-//                String bankAcc = bankAccount.getBankAccountId() + "," + ',' + bankAccount.getIBAN() + ',' + bankAccount.getBalance() + ',' + bankAccount.getOpeningDate() + ',' +  client.getClientId();
-//                writeToBankAccounts.write(bankAcc);
-//                writeToBankAccounts.write('\n');
-//            }
-//            writeToBankAccounts.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
+
+    public void writeToBankAccounts(ArrayList<BankAccount> bankAccounts,Controller controller){
+        try {
+            FileWriter writeToBankAccounts = new FileWriter("src/com/company/bankAccounts.csv",true);
+            for(BankAccount bankAccount : bankAccounts){
+                Client client = controller.findClientByBankAccountId(bankAccount.getBankAccountId());
+                String bankAcc = bankAccount.getBankAccountId() + "," + ',' + bankAccount.getIBAN() + ',' + bankAccount.getBalance() + ',' + bankAccount.getOpeningDate() + ',' +  client.getClientId();
+                writeToBankAccounts.write(bankAcc);
+                writeToBankAccounts.write('\n');
+            }
+            writeToBankAccounts.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

@@ -33,7 +33,7 @@ public class Main {
         readFromFile.readAppAccounts("src/com/company/appAccounts.csv",controller);
         controller.displayAppAccounts(appAccounts);
 
-//        readFromFile.readBankAccounts("src/com/company/bankAccounts.csv",controller);
+        readFromFile.readBankAccounts("src/com/company/bankAccounts.csv",controller);
         controller.displayBankAccounts(bankAccounts);
 
         controller.setTransactions(transactions);
@@ -85,7 +85,7 @@ public class Main {
 
         writeToFile.writeToClients(clients);
         writeToFile.writeToAppAccounts(appAccounts,controller);
-//        writeToFile.writeToBankAccounts(bankAccounts,controller);
+        writeToFile.writeToBankAccounts(bankAccounts,controller);
 
 
 

@@ -10,8 +10,8 @@ public class SavingAccount extends BankAccount {
         return commissionPct;
     }
 
-    public SavingAccount(int bankAccountId, String IBAN, float balance, LocalDate openingDate, float commissionPct,int clientId) {
-        super(bankAccountId, IBAN, balance, openingDate, clientId);
+    public SavingAccount(int bankAccountId, String IBAN, float balance, LocalDate openingDate, float commissionPct) {
+        super(bankAccountId, IBAN, balance, openingDate);
         this.commissionPct = commissionPct;
     }
 

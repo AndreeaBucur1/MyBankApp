@@ -9,7 +9,7 @@ public class BankAccount {
     protected ArrayList<Card> cards;
     protected String IBAN;
 
-    public BankAccount(int bankAccountId, String IBAN, float balance, LocalDate openingDate,int clientId) {
+    public BankAccount(int bankAccountId, String IBAN, float balance, LocalDate openingDate) {
         this.bankAccountId = bankAccountId;
         this.cards = cards;
         this.IBAN = IBAN;
