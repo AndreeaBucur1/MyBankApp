@@ -70,14 +70,14 @@ public abstract class Card {
         this.expirationDate = expirationDate;
     }
 
-    public Card(int cardId, int bankAccountId, long cardNumber, int CVV, LocalDate expirationDate) {
+    public Card(int cardId, int bankAccountId, long cardNumberr, int CVV, LocalDate expirationDate) {
         this.cardId = cardId;
         this.bankAccountId = bankAccountId;
         this.cardNumber = cardNumber;
         this.CVV = CVV;
         this.expirationDate = expirationDate;
-        id++;
-        number++;
-        cvv++;
+        id = cardId-1;
+        cardNumber = cardNumberr-1;
+        cvv = CVV-1;
     }
 }

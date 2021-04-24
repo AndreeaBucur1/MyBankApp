@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ReadFromFile {
@@ -102,10 +104,8 @@ public class ReadFromFile {
                 controller.getSavingAccounts().add(savingAccount);
                 Client client = controller.findClientByBankAccountId(Integer.valueOf(tokens[5]));
                 client.getBankAccounts().add(savingAccount);
-                controller.getSavingAccounts().add(savingAccount);
-
+                controller.getAllBankAccounts().add(savingAccount);
             }
-
         }
         reader.close();
     }
@@ -122,22 +122,73 @@ public class ReadFromFile {
             String data = reader.nextLine();
             String[] tokens = data.split(",");
             if(tokens.length == 1) {
-                System.out.println(tokens[0]);
-                System.out.println(controller.getAllBankAccounts());
                 controller.addCreditCard(Integer.valueOf(tokens[0]));
             }
             else{
                 CreditCard creditCard = new CreditCard(Integer.valueOf(tokens[0]),Integer.valueOf(tokens[1]),Long.valueOf(tokens[2]),Integer.valueOf(tokens[3]),LocalDate.parse(tokens[4]),Float.valueOf(tokens[5]),LocalDate.parse(tokens[6]));
-                controller.addCreditCard(creditCard.getCardId());
-                BankAccount bankAccount = controller.findBankAccount(creditCard.getBankAccountId());
+                controller.addCreditCard(creditCard.getBankAccountId());
+                BankAccount bankAccount = controller.findBankAccount(Integer.valueOf(tokens[1]));
                 bankAccount.getCards().add(creditCard);
+                controller.getAllCards().add(creditCard);
             }
 
         }
         reader.close();
     }
 
+    public void readDebitCards(String filePath,Controller controller){
+        File file = new File(filePath);
+        Scanner reader = null;
+        try {
+            reader = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while (reader.hasNextLine()){
+            String data = reader.nextLine();
+            String[] tokens = data.split(",");
+            if(tokens.length == 1) {
+                controller.addDebitCard(Integer.valueOf(tokens[0]));
+            }
+            else{
+                DebitCard debitCard = new DebitCard(Integer.valueOf(tokens[0]),Integer.valueOf(tokens[1]),Long.valueOf(tokens[2]),Integer.valueOf(tokens[3]),LocalDate.parse(tokens[4]));
+                System.out.println(debitCard);
+                controller.addDebitCard(debitCard.getBankAccountId());
+                BankAccount bankAccount = controller.findBankAccount(debitCard.getBankAccountId());
+                bankAccount.getCards().add(debitCard);
+                controller.getAllCards().add(debitCard);
+            }
 
+        }
+        reader.close();
+    }
+
+    public void readTransactions(String filePath,Controller controller){
+        File file = new File(filePath);
+        Scanner reader = null;
+        try {
+            reader = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while (reader.hasNextLine()){
+            String data = reader.nextLine();
+            String[] tokens = data.split(",");
+            if(tokens.length == 1) {
+                controller.addDebitCard(Integer.valueOf(tokens[0]));
+            }
+            else{
+                DebitCard debitCard = new DebitCard(Integer.valueOf(tokens[0]),Integer.valueOf(tokens[1]),Long.valueOf(tokens[2]),Integer.valueOf(tokens[3]),LocalDate.parse(tokens[4]));
+                System.out.println(debitCard);
+                controller.addDebitCard(debitCard.getBankAccountId());
+                BankAccount bankAccount = controller.findBankAccount(debitCard.getBankAccountId());
+                bankAccount.getCards().add(debitCard);
+                controller.getAllCards().add(debitCard);
+            }
+
+        }
+        reader.close();
+    }
 
 
 }

@@ -75,7 +75,7 @@ public class WriteToFiles {
 
     public void writeToSavingAccounts(ArrayList<SavingAccount> savingAccounts,Controller controller) {
         try{
-            FileWriter writeToSavingAccounts = new FileWriter("src/com/company/savingAccounts.csv",true);
+            FileWriter writeToSavingAccounts = new FileWriter("src/com/company/savAcc.csv",true);
             for(SavingAccount savingAccount : savingAccounts){
                 Client client = controller.findClientByBankAccountId(savingAccount.getBankAccountId());
                 String bankAcc = savingAccount.getBankAccountId() + "," + savingAccount.getIBAN() + ',' + savingAccount.getBalance() + ',' + savingAccount.getOpeningDate() + ','  + savingAccount.getCommissionPct() + ',' +  client.getClientId();
@@ -98,6 +98,38 @@ public class WriteToFiles {
             }
             writeToCreditCards.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToDebitCards(ArrayList<DebitCard> debitCards,Controller controller){
+        try{
+            FileWriter writeToDebitCards = new FileWriter("src/com/company/debitCards.csv",true);
+            for(DebitCard debitCard : debitCards){
+                String debitC = debitCard.getCardId() + "," + debitCard.getBankAccountId() + ',' + debitCard.getCardNumber() + ',' + debitCard.getCVV() + ',' + debitCard.getExpirationDate() + ',' + debitCard.getOverDraftLimit() + ',' + debitCard.getTransactionCommission();
+                writeToDebitCards.write(debitC);
+                writeToDebitCards.write('\n');
+            }
+            writeToDebitCards.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToTransactions(ArrayList<Transaction> transactions,Controller controller){
+        try{
+            FileWriter writeToTransactions = new FileWriter("src/com/company/transactions.csv",true);
+            for(Transaction transaction : transactions){
+                if(transaction instanceof Transaction){
+                    String trans = transaction.getTransactionId() + "," + transaction.getTransactionName() + "," + transaction.getBankAccountId() + ',' + transaction.getDate() + ',' + transaction.getSold();
+                    writeToTransactions.write(trans);
+                }
+                else if(transaction instanceof MoneyTransfer) {
+                    String transfer = transaction.getTransactionId() + "," + transaction.getTransactionName() + "," + transaction.getBankAccountId() + ',' + transaction.getDate() + ',' + transaction.getSold() + ((MoneyTransfer) transaction).getTransferToBankAccountId();
+                }
+            }
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
     }
