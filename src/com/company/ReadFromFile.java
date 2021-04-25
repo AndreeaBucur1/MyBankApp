@@ -152,7 +152,6 @@ public class ReadFromFile {
             }
             else{
                 DebitCard debitCard = new DebitCard(Integer.valueOf(tokens[0]),Integer.valueOf(tokens[1]),Long.valueOf(tokens[2]),Integer.valueOf(tokens[3]),LocalDate.parse(tokens[4]));
-                System.out.println(debitCard);
                 controller.addDebitCard(debitCard.getBankAccountId());
                 BankAccount bankAccount = controller.findBankAccount(debitCard.getBankAccountId());
                 bankAccount.getCards().add(debitCard);
@@ -174,16 +173,13 @@ public class ReadFromFile {
         while (reader.hasNextLine()){
             String data = reader.nextLine();
             String[] tokens = data.split(",");
-            if(tokens.length == 1) {
-                controller.addDebitCard(Integer.valueOf(tokens[0]));
+            if(tokens.length == 5) {
+                Transaction transaction = new Transaction(Integer.valueOf(tokens[0]),tokens[1],Integer.valueOf(tokens[2]),LocalDate.parse(tokens[3]),Float.valueOf(tokens[4]));
+                controller.getTransactions().add(transaction);
             }
             else{
-                DebitCard debitCard = new DebitCard(Integer.valueOf(tokens[0]),Integer.valueOf(tokens[1]),Long.valueOf(tokens[2]),Integer.valueOf(tokens[3]),LocalDate.parse(tokens[4]));
-                System.out.println(debitCard);
-                controller.addDebitCard(debitCard.getBankAccountId());
-                BankAccount bankAccount = controller.findBankAccount(debitCard.getBankAccountId());
-                bankAccount.getCards().add(debitCard);
-                controller.getAllCards().add(debitCard);
+                MoneyTransfer moneyTransfer = new MoneyTransfer(Integer.valueOf(tokens[0]),tokens[1],Integer.valueOf(tokens[2]),LocalDate.parse(tokens[3]),Float.valueOf(tokens[4]),Integer.valueOf(tokens[5]));
+                controller.getTransactions().add(moneyTransfer);
             }
 
         }

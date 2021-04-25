@@ -7,12 +7,11 @@ public class CardServices {
         WriteToFiles writeToFiles = new WriteToFiles();
         boolean okCard = false;
         do {
-            controller.displayCards(controller.getAllCards());
             System.out.println("Enter your card: ");
             Scanner scan = new Scanner(System.in);
             long cardNumber = scan.nextLong();
             Card card = controller.findCardByNumber(cardNumber);
-            System.out.println(card);
+
             if (card != null) {
                 okCard = true;
                 int option;

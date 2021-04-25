@@ -46,18 +46,20 @@ public class Main {
         readFromFile.readDebitCards("src/com/company/debitCards.csv",controller);
         controller.displayDebitCards(controller.debitCards);
 
+        readFromFile.readTransactions("src/com/company/transactions.csv",controller);
+
 
         controller.displayClients(clients);
 
 
-//
-//        controller.setTransactions(transactions);
-//        controller.setBankAccounts(bankAccounts);
-//        controller.setCards(cards);
-//        controller.setClients(clients);
-//        controller.setAppAccounts(appAccounts);
-//        controller.setSavingAccounts(savingAccounts);
-//        controller.setCreditCards(creditCards);
+
+        controller.setTransactions(transactions);
+        controller.setBankAccounts(bankAccounts);
+        controller.setCards(cards);
+        controller.setClients(clients);
+        controller.setAppAccounts(appAccounts);
+        controller.setSavingAccounts(savingAccounts);
+        controller.setCreditCards(creditCards);
 
         controller.sort(clients);
         WriteToFiles writeToFile = new WriteToFiles();
@@ -93,13 +95,14 @@ public class Main {
             FileWriter writeToSavingAccounts = new FileWriter("src/com/company/savAcc.csv",false);
             FileWriter writeToCreditCards = new FileWriter("src/com/company/creditCards.csv",false);
             FileWriter writeToDebitCards = new FileWriter("src/com/company/debitCards.csv",false);
-
+            FileWriter writeToTransactions = new FileWriter("src/com/company/transactions.csv",false);
             writeToCreditCards.close();
             writeToAppAccounts.close();
             writeToClients.close();
             writeToBankAccounts.close();
             writeToSavingAccounts.close();
             writeToDebitCards.close();
+            writeToTransactions.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,6 +113,7 @@ public class Main {
         writeToFile.writeToSavingAccounts(savingAccounts,controller);
         writeToFile.writeToCreditCards(creditCards,controller);
         writeToFile.writeToDebitCards(controller.debitCards,controller);
+        writeToFile.writeToTransactions(transactions,controller);
 
 
     }

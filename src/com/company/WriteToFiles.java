@@ -123,11 +123,15 @@ public class WriteToFiles {
                 if(transaction instanceof Transaction){
                     String trans = transaction.getTransactionId() + "," + transaction.getTransactionName() + "," + transaction.getBankAccountId() + ',' + transaction.getDate() + ',' + transaction.getSold();
                     writeToTransactions.write(trans);
+                    writeToTransactions.write('\n');
                 }
                 else if(transaction instanceof MoneyTransfer) {
                     String transfer = transaction.getTransactionId() + "," + transaction.getTransactionName() + "," + transaction.getBankAccountId() + ',' + transaction.getDate() + ',' + transaction.getSold() + ((MoneyTransfer) transaction).getTransferToBankAccountId();
+                    writeToTransactions.write(transfer);
+                    writeToTransactions.write('\n');
                 }
             }
+            writeToTransactions.close();
         }
         catch (IOException e){
             e.printStackTrace();
