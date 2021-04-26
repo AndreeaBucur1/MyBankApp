@@ -32,8 +32,13 @@ public class CardServices {
                         int sum = scan.nextInt();
                         BankAccount bankAccount = controller.findBankAccount(card.getBankAccountId());
                         System.out.println(bankAccount);
-                        controller.withdraw(card.getCardId(), sum);
-                        System.out.println(bankAccount);
+
+                        try {
+                            controller.withdraw(card.getCardId(), sum);
+                        } catch (MyException e) {
+                            e.printStackTrace();
+                        }
+
                         writeToFiles.writeToAudit("Money withdrawal");
 
                     } else if (option == 3) {
@@ -50,7 +55,11 @@ public class CardServices {
                         float sum = scan.nextFloat();
                         BankAccount bankAccount = controller.findBankAccount(card.getBankAccountId());
                         System.out.println(bankAccount);
-                        controller.payment(card.getBankAccountId(),sum);
+                        try {
+                            controller.payment(card.getBankAccountId(),sum);
+                        } catch (MyException e) {
+                            e.printStackTrace();
+                        }
                         System.out.println(bankAccount);
                         writeToFiles.writeToAudit("Payment");
                     }

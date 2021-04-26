@@ -21,10 +21,6 @@ public class Main {
 
 
 
-//        controller.addFunds(2, 1000);
-//        controller.withdraw(2, 100);
-//
-
         ReadFromFile readFromFile = new ReadFromFile();
 
         readFromFile.readClients("src/com/company/clients.csv",controller);
@@ -114,6 +110,7 @@ public class Main {
         writeToFile.writeToCreditCards(creditCards,controller);
         writeToFile.writeToDebitCards(controller.debitCards,controller);
         writeToFile.writeToTransactions(transactions,controller);
+
 
 
     }

@@ -19,6 +19,7 @@ public class AppAccount {
         this.appAccountId = ++id;
         this.accessToken = token++;
         this.password = password;
+
     }
 
     public int getAppAccountId() {

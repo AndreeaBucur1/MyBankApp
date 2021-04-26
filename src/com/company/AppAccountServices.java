@@ -69,7 +69,11 @@ public class AppAccountServices {
                                     System.out.println(transferMoneyFrom);
                                     System.out.println(transferMoneyTo);
 
-                                    controller.transfer(transferMoneyFrom.getBankAccountId(), transferMoneyTo.getBankAccountId(), sum);
+                                    try {
+                                        controller.transfer(transferMoneyFrom.getBankAccountId(), transferMoneyTo.getBankAccountId(), sum);
+                                    } catch (MyException e) {
+                                        e.printStackTrace();
+                                    }
                                     writeToFiles.writeToAudit("Money transfer");
 
 
