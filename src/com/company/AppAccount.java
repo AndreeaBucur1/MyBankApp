@@ -2,7 +2,7 @@ package com.company;
 
 public class AppAccount {
     private int appAccountId;
-    private static int id = 0;
+    private static int id = -1;
     private int accessToken;
     private static int token = 100000;
 
@@ -10,6 +10,7 @@ public class AppAccount {
         this.appAccountId = appAccountId;
         this.accessToken = accessToken;
         this.password = password;
+        ++id;
     }
 
     private String password;

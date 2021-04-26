@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class AppAccountServices {
     public void firstOption(Controller controller) {
+        WriteToFiles writeToFiles = new WriteToFiles();
         boolean okPass = false;
         do {
             System.out.println("Enter your access token: ");
@@ -11,13 +12,13 @@ public class AppAccountServices {
             int accessToken = scan.nextInt();
             System.out.println("Enter your password: ");
             String password = scan.next();
-//        System.out.println(controller.appAccounts);
             AppAccount appAccount = controller.findAppAccountByAccessToken(accessToken);
 
             if (appAccount != null) {
                 if (appAccount.getPassword().compareTo(password) != 0) {
                     System.out.println("Wrong password");
                 } else {
+                    writeToFiles.writeToAudit("Connection to the app account");
 
                     Client client = controller.findClientByAppAccountId(appAccount.getAppAccountId());
                     int newOption;
@@ -38,6 +39,7 @@ public class AppAccountServices {
                                 System.out.println("Bank account: " + bankAccount.getIBAN());
                                 System.out.println("Balance: " + bankAccount.getBalance());
                                 System.out.println();
+                                writeToFiles.writeToAudit("Balance check");
                             }
 
                         } else if (newOption == 2) {
@@ -68,8 +70,9 @@ public class AppAccountServices {
                                     System.out.println(transferMoneyTo);
 
                                     controller.transfer(transferMoneyFrom.getBankAccountId(), transferMoneyTo.getBankAccountId(), sum);
-                                    System.out.println(transferMoneyFrom);
-                                    System.out.println(transferMoneyTo);
+                                    writeToFiles.writeToAudit("Money transfer");
+
+
                                 }
 
                             }
@@ -89,6 +92,7 @@ public class AppAccountServices {
                                 System.out.println("Nicio tranzactie in aceasta luna");
                             else
                                 System.out.println(accountStatement);
+                            writeToFiles.writeToAudit("Account statement");
 
 
 
