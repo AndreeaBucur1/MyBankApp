@@ -12,7 +12,7 @@ public class CardServices {
             long cardNumber = scan.nextLong();
             Card card = controller.findCardByNumber(cardNumber);
 
-            if (card != null) {
+            if (card != null ) {
                 okCard = true;
                 int option;
                 do {
@@ -70,6 +70,6 @@ public class CardServices {
 
                 } while (option != 5);
             }
-        } while(okCard == false);
+        } while(!okCard);
     }
 }

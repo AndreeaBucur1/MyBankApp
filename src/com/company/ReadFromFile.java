@@ -2,10 +2,7 @@ package com.company;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ReadFromFile {
@@ -44,7 +41,11 @@ public class ReadFromFile {
             String data = reader.nextLine();
             String[] tokens = data.split(",");
             if(tokens.length == 1) {
-                controller.addAppAccount(Integer.valueOf(tokens[0]));
+                try {
+                    controller.addAppAccount(Integer.valueOf(tokens[0]));
+                } catch (MyException e) {
+                    e.printStackTrace();
+                }
 
             }
             else{
@@ -138,14 +139,10 @@ public class ReadFromFile {
             }
             else{
                 CreditCard creditCard = new CreditCard(Integer.valueOf(tokens[0]),Integer.valueOf(tokens[1]),Long.valueOf(tokens[2]),Integer.valueOf(tokens[3]),LocalDate.parse(tokens[4]),Float.valueOf(tokens[5]),LocalDate.parse(tokens[6]));
-                try {
-                    controller.addCreditCard(creditCard.getBankAccountId());
-                } catch (MyException e) {
-                    e.printStackTrace();
-                }
                 BankAccount bankAccount = controller.findBankAccount(Integer.valueOf(tokens[1]));
                 bankAccount.getCards().add(creditCard);
                 controller.getAllCards().add(creditCard);
+                controller.getCreditCards().add(creditCard);
             }
 
         }

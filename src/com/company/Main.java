@@ -1,15 +1,15 @@
 package com.company;
-import java.io.File;
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        Controller controller = new Controller();
+        Controller controller = Controller.Singleton();
 
         ArrayList<Client> clients = controller.getClients();
         ArrayList<BankAccount> bankAccounts = controller.getBankAccounts();
@@ -20,33 +20,31 @@ public class Main {
         ArrayList<Transaction> transactions = controller.getTransactions();
 
 
-
         ReadFromFile readFromFile = new ReadFromFile();
 
-        readFromFile.readClients("src/com/company/clients.csv",controller);
+        readFromFile.readClients("src/com/company/clients.csv", controller);
         controller.displayClients(controller.getClients());
 
-        readFromFile.readAppAccounts("src/com/company/appAccounts.csv",controller);
+        readFromFile.readAppAccounts("src/com/company/appAccounts.csv", controller);
         controller.displayAppAccounts(appAccounts);
 
-        readFromFile.readBankAccounts("src/com/company/bankAccounts.csv",controller);
-        readFromFile.readSavingAccounts("src/com/company/savAcc.csv",controller);
+        readFromFile.readBankAccounts("src/com/company/bankAccounts.csv", controller);
+        readFromFile.readSavingAccounts("src/com/company/savAcc.csv", controller);
         controller.displayBankAccounts(bankAccounts);
         controller.displaySavingAccounts(savingAccounts);
 
-        readFromFile.readCreditCards("src/com/company/creditCards.csv",controller);
+        readFromFile.readCreditCards("src/com/company/creditCards.csv", controller);
         controller.displayCreditCards(creditCards);
         controller.displayBankAccounts(bankAccounts);
         controller.displaySavingAccounts(savingAccounts);
 
-        readFromFile.readDebitCards("src/com/company/debitCards.csv",controller);
+        readFromFile.readDebitCards("src/com/company/debitCards.csv", controller);
         controller.displayDebitCards(controller.debitCards);
 
-        readFromFile.readTransactions("src/com/company/transactions.csv",controller);
+        readFromFile.readTransactions("src/com/company/transactions.csv", controller);
 
 
         controller.displayClients(clients);
-
 
 
         controller.setTransactions(transactions);
@@ -79,19 +77,23 @@ public class Main {
                 CardServices cardServices = new CardServices();
                 cardServices.secondOption(controller);
             }
+            else if(option == 3){
+                ManagerServices managerServices = new ManagerServices();
+                managerServices.thirdOption(controller);
+            }
 
 
-        }while(option != 4);
+        } while (option != 4);
 
 
         try {
-            FileWriter writeToClients = new FileWriter("src/com/company/clients.csv",false);
-            FileWriter writeToAppAccounts = new FileWriter("src/com/company/appAccounts.csv",false);
-            FileWriter writeToBankAccounts = new FileWriter("src/com/company/bankAccounts.csv",false);
-            FileWriter writeToSavingAccounts = new FileWriter("src/com/company/savAcc.csv",false);
-            FileWriter writeToCreditCards = new FileWriter("src/com/company/creditCards.csv",false);
-            FileWriter writeToDebitCards = new FileWriter("src/com/company/debitCards.csv",false);
-            FileWriter writeToTransactions = new FileWriter("src/com/company/transactions.csv",false);
+            FileWriter writeToClients = new FileWriter("src/com/company/clients.csv", false);
+            FileWriter writeToAppAccounts = new FileWriter("src/com/company/appAccounts.csv", false);
+            FileWriter writeToBankAccounts = new FileWriter("src/com/company/bankAccounts.csv", false);
+            FileWriter writeToSavingAccounts = new FileWriter("src/com/company/savAcc.csv", false);
+            FileWriter writeToCreditCards = new FileWriter("src/com/company/creditCards.csv", false);
+            FileWriter writeToDebitCards = new FileWriter("src/com/company/debitCards.csv", false);
+            FileWriter writeToTransactions = new FileWriter("src/com/company/transactions.csv", false);
             writeToCreditCards.close();
             writeToAppAccounts.close();
             writeToClients.close();
@@ -103,14 +105,15 @@ public class Main {
             e.printStackTrace();
         }
 
-        writeToFile.writeToClients(clients);
-        writeToFile.writeToAppAccounts(appAccounts,controller);
-        writeToFile.writeToBankAccounts(bankAccounts,controller);
-        writeToFile.writeToSavingAccounts(savingAccounts,controller);
-        writeToFile.writeToCreditCards(creditCards,controller);
-        writeToFile.writeToDebitCards(controller.debitCards,controller);
-        writeToFile.writeToTransactions(transactions,controller);
+        clients.sort(Comparator.comparing(Client::getLastName));
 
+        writeToFile.writeToClients(clients);
+        writeToFile.writeToAppAccounts(appAccounts, controller);
+        writeToFile.writeToBankAccounts(bankAccounts, controller);
+        writeToFile.writeToSavingAccounts(savingAccounts, controller);
+        writeToFile.writeToCreditCards(creditCards, controller);
+        writeToFile.writeToDebitCards(controller.debitCards, controller);
+        writeToFile.writeToTransactions(transactions, controller);
 
 
     }

@@ -14,11 +14,12 @@ public class AppAccountServices {
             String password = scan.next();
             AppAccount appAccount = controller.findAppAccountByAccessToken(accessToken);
 
-            if (appAccount != null) {
+            if (appAccount != null && appAccount.getAppAccountId() != 0) {
                 if (appAccount.getPassword().compareTo(password) != 0) {
                     System.out.println("Wrong password");
                 } else {
                     writeToFiles.writeToAudit("Connection to the app account");
+                    okPass = true;
 
                     Client client = controller.findClientByAppAccountId(appAccount.getAppAccountId());
                     int newOption;
@@ -93,7 +94,7 @@ public class AppAccountServices {
                             BankAccount bankAccount = client.getBankAccounts().get(bankAccountNr-1);
                             AccountStatement accountStatement = controller.accountStatement(bankAccount.getBankAccountId(),month);
                             if(accountStatement == null)
-                                System.out.println("Nicio tranzactie in aceasta luna");
+                                System.out.println("No transactions this month");
                             else
                                 System.out.println(accountStatement);
                             writeToFiles.writeToAudit("Account statement");
@@ -110,6 +111,6 @@ public class AppAccountServices {
                 System.out.println("Wrong access token");
             }
 
-        }while(okPass = false);
+        }while(!okPass);
     }
 }

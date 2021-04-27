@@ -47,6 +47,7 @@ public class Client{
         this.email = email;
         this.appAccountId = appAccountId;
         this.PNC = PNC;
+        ++id;
     }
 
     public Client(String firstName, String lastName, String phoneNumber, String email, long PNC) {

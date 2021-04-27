@@ -6,6 +6,14 @@ import java.util.Comparator;
 
 public class Controller {
 
+    private static Controller single_instance = null;
+    public static Controller Singleton(){
+        if(single_instance == null){
+            single_instance = new Controller();
+        }
+        return single_instance;
+    }
+
     ArrayList<Client> clients = new ArrayList<>();
     ArrayList<BankAccount> bankAccounts = new ArrayList<>();
     ArrayList<Transaction> transactions = new ArrayList<>();
@@ -178,7 +186,9 @@ public class Controller {
     {
 
         list.sort(Comparator.comparing(Client::getLastName));
+
     }
+
 
 
 
@@ -262,6 +272,7 @@ public class Controller {
     public void addClient( String firstName, String lastName, String phoneNumber, String email, long PNC){
         Client client = new Client(firstName, lastName, phoneNumber, email,PNC);
         clients.add(client);
+
     }
 
 
@@ -282,7 +293,7 @@ public class Controller {
     }
 
 
-    public void addAppAccount(int clientId){
+    public void addAppAccount(int clientId) throws MyException {
         if(findClient(clientId) != null) {
             Client client = findClient(clientId);
             String password = "";
@@ -302,11 +313,12 @@ public class Controller {
                 client.setAppAccountId(appAccount.getAppAccountId());
             } else {
                 System.out.println("This client already has an account");
+                throw new MyException("Client already has an account");
             }
         }
         else{
             System.out.println("Client does not exist");
-            MyException myException = new MyException("Client does not exist");
+            throw new MyException("Client does not exist");
 
         }
     }
@@ -385,7 +397,7 @@ public class Controller {
         else{
             bankAccount.setBalance(bankAccount.getBalance() - sum);
             String transactionName = "Payment";
-            Transaction transaction = new Transaction(bankAccountId,transactionName,LocalDate.now(), ((float) sum));
+            Transaction transaction = new Transaction(bankAccountId,transactionName,LocalDate.now(), sum);
             transactions.add(transaction);
 
         }

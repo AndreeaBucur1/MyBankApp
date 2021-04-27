@@ -65,7 +65,7 @@ public abstract class Card {
     public Card( int bankAccountId,LocalDate expirationDate) {
         this.cardId = ++id;
         this.bankAccountId = bankAccountId;
-        this.cardNumber = number++;
+        this.cardNumber = ++number;
         this.CVV = ++cvv;
         this.expirationDate = expirationDate;
     }
@@ -73,11 +73,12 @@ public abstract class Card {
     public Card(int cardId, int bankAccountId, long cardNumberr, int CVV, LocalDate expirationDate) {
         this.cardId = cardId;
         this.bankAccountId = bankAccountId;
-        this.cardNumber = cardNumber;
+        this.cardNumber = cardNumberr;
         this.CVV = CVV;
         this.expirationDate = expirationDate;
-        id = cardId-1;
-        cardNumber = cardNumberr-1;
-        cvv = CVV-1;
+        ++id;
+        ++number;
+        ++cvv;
+
     }
 }
