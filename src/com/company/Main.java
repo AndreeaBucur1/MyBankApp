@@ -40,6 +40,7 @@ public class Main {
             System.out.println("Option 2: Enter your card");
             System.out.println("Option 3: Connect as manager");
             System.out.println("Option 4: Exit");
+            System.out.println();
 
             Scanner scan = new Scanner(System.in);
             option = scan.nextInt();

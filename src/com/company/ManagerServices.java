@@ -33,6 +33,7 @@ public class ManagerServices {
                             System.out.println("Option 4: Add card");
                             System.out.println("Option 5: Display all data");
                             System.out.println("Option 6: Exit");
+                            System.out.println();
 
                             option = scanner.nextInt();
                             if (option > 6) {
@@ -74,16 +75,19 @@ public class ManagerServices {
                                     System.out.println("1: Bank account");
                                     System.out.println("2: Saving account");
                                     System.out.println("3: Abort");
+                                    System.out.println();
                                     newOption = scanner.nextInt();
                                     if (newOption == 1) {
                                         try {
                                             controller.addBankAccount(clientId);
+                                            writeToFiles.writeToAudit("Add bank account");
                                         } catch (MyException e) {
                                             e.printStackTrace();
                                         }
                                     } else if (newOption == 2) {
                                         try {
                                             controller.addSavingAccount(clientId);
+                                            writeToFiles.writeToAudit("Add saving account");
                                         } catch (MyException e) {
                                             e.printStackTrace();
                                         }
@@ -94,8 +98,84 @@ public class ManagerServices {
                                     }
                                 } while (!(newOption == 1 || newOption == 2 || newOption == 3));
                             }
-                            else if(option == 3){
+                            else if(option == 4){
+                                controller.displayClients(controller.getClients());
                                 System.out.println("Enter the id of the client: ");
+                                int clientId = scanner.nextInt();
+                                Client client = controller.findClient(clientId);
+                                System.out.println("This are the bank accounts of this client:");
+                                int bankAccountNr = 0;
+                                for(BankAccount bankAccount : client.getBankAccounts()){
+                                    System.out.println(++bankAccountNr + " " + bankAccount);
+                                }
+                                System.out.println("Enter the id of the bank account you want to add the card to:");
+                                boolean validBankAccountId = false;
+                                int bankAccId;
+                                do{
+                                    System.out.println("Enter the id of the bank account you want to add the card to:");
+                                    System.out.println("Enter -1 to abort");
+                                    bankAccId = scanner.nextInt();
+                                    if(bankAccId <= client.getBankAccounts().size())
+                                        validBankAccountId = true;
+                                }while(!validBankAccountId);
+                                if(bankAccId == -1){
+                                    System.out.println("Canceled");
+                                }
+                                else{
+                                    if(bankAccId <= client.getBankAccounts().size()) {
+                                        BankAccount bankAccount = client.getBankAccounts().get(bankAccId-1);
+                                        boolean validOption = false;
+                                        do {
+                                            System.out.println("Choose an option:");
+                                            System.out.println();
+                                            System.out.println("1: Credit card");
+                                            System.out.println("2: Debit card");
+                                            System.out.println("3: Abort");
+                                            System.out.println();
+                                            int op = scanner.nextInt();
+                                            if (op == 3){
+                                                System.out.println("Canceled");
+                                                validOption = true;
+                                            }
+                                            else if(op == 1){
+                                                try {
+                                                    controller.addCreditCard(bankAccount.getBankAccountId());
+                                                    writeToFiles.writeToAudit("Add credit card");
+                                                    validOption = true;
+                                                } catch (MyException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            else if(op == 2){
+                                                try {
+                                                    controller.addDebitCard(bankAccount.getBankAccountId());
+                                                    writeToFiles.writeToAudit("Add debit card");
+                                                    validOption = true;
+                                                } catch (MyException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }while (!validOption);
+
+                                    }
+                                }
+
+                            }
+                            else if(option == 5){
+                                boolean validOption = false;
+                                controller.displayDebitCards(controller.getDebitCards());
+                                controller.displayCreditCards(controller.getCreditCards());
+//                                do {
+//                                    System.out.println("Choose an option: ");
+//                                    System.out.println();
+//                                    System.out.println("1: Display clients");
+//                                    System.out.println("2: Display bank accounts");
+//                                    System.out.println("3: Display saving accounts");
+//                                    System.out.println("4: Display credit cards");
+//                                    System.out.println("5: Display debit cards");
+//                                    System.out.println("6:");
+//                                }while (!validOption);
+
                             }
 
 

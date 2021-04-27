@@ -168,15 +168,13 @@ public class ReadFromFile {
                 }
             }
             else{
-                DebitCard debitCard = new DebitCard(Integer.valueOf(tokens[0]),Integer.valueOf(tokens[1]),Long.valueOf(tokens[2]),Integer.valueOf(tokens[3]),LocalDate.parse(tokens[4]));
-                try {
-                    controller.addDebitCard(debitCard.getBankAccountId());
-                } catch (MyException e) {
-                    e.printStackTrace();
-                }
-                BankAccount bankAccount = controller.findBankAccount(debitCard.getBankAccountId());
-                bankAccount.getCards().add(debitCard);
-                controller.getAllCards().add(debitCard);
+                    DebitCard debitCard = new DebitCard(Integer.valueOf(tokens[0]),Integer.valueOf(tokens[1]),Long.valueOf(tokens[2]),Integer.valueOf(tokens[3]),LocalDate.parse(tokens[4]));
+                    BankAccount bankAccount = controller.findBankAccount(debitCard.getBankAccountId());
+                    bankAccount.getCards().add(debitCard);
+                    controller.getAllCards().add(debitCard);
+                    controller.getDebitCards().add(debitCard);
+
+
             }
 
         }

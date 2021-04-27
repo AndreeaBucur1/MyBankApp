@@ -31,6 +31,7 @@ public class AppAccountServices {
                         System.out.println("Option 2: Transfer money");
                         System.out.println("Option 3: Get an account statement");
                         System.out.println("Option 4: Exit");
+                        System.out.println();
 
 
                         newOption = scan.nextInt();
