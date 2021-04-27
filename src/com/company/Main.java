@@ -20,31 +20,8 @@ public class Main {
         ArrayList<Transaction> transactions = controller.getTransactions();
 
 
-        ReadFromFile readFromFile = new ReadFromFile();
-
-        readFromFile.readClients("src/com/company/clients.csv", controller);
-        controller.displayClients(controller.getClients());
-
-        readFromFile.readAppAccounts("src/com/company/appAccounts.csv", controller);
-        controller.displayAppAccounts(appAccounts);
-
-        readFromFile.readBankAccounts("src/com/company/bankAccounts.csv", controller);
-        readFromFile.readSavingAccounts("src/com/company/savAcc.csv", controller);
-        controller.displayBankAccounts(bankAccounts);
-        controller.displaySavingAccounts(savingAccounts);
-
-        readFromFile.readCreditCards("src/com/company/creditCards.csv", controller);
-        controller.displayCreditCards(creditCards);
-        controller.displayBankAccounts(bankAccounts);
-        controller.displaySavingAccounts(savingAccounts);
-
-        readFromFile.readDebitCards("src/com/company/debitCards.csv", controller);
-        controller.displayDebitCards(controller.debitCards);
-
-        readFromFile.readTransactions("src/com/company/transactions.csv", controller);
-
-
-        controller.displayClients(clients);
+        LoadDataFromFiles loadDataFromFiles = new LoadDataFromFiles();
+        loadDataFromFiles.loadData(controller);
 
 
         controller.setTransactions(transactions);
@@ -54,10 +31,6 @@ public class Main {
         controller.setAppAccounts(appAccounts);
         controller.setSavingAccounts(savingAccounts);
         controller.setCreditCards(creditCards);
-
-        controller.sort(clients);
-        WriteToFiles writeToFile = new WriteToFiles();
-
 
         int option;
         do {
@@ -85,36 +58,11 @@ public class Main {
 
         } while (option != 4);
 
-
-        try {
-            FileWriter writeToClients = new FileWriter("src/com/company/clients.csv", false);
-            FileWriter writeToAppAccounts = new FileWriter("src/com/company/appAccounts.csv", false);
-            FileWriter writeToBankAccounts = new FileWriter("src/com/company/bankAccounts.csv", false);
-            FileWriter writeToSavingAccounts = new FileWriter("src/com/company/savAcc.csv", false);
-            FileWriter writeToCreditCards = new FileWriter("src/com/company/creditCards.csv", false);
-            FileWriter writeToDebitCards = new FileWriter("src/com/company/debitCards.csv", false);
-            FileWriter writeToTransactions = new FileWriter("src/com/company/transactions.csv", false);
-            writeToCreditCards.close();
-            writeToAppAccounts.close();
-            writeToClients.close();
-            writeToBankAccounts.close();
-            writeToSavingAccounts.close();
-            writeToDebitCards.close();
-            writeToTransactions.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        //Sortez clientii dupa nume
         clients.sort(Comparator.comparing(Client::getLastName));
 
-        writeToFile.writeToClients(clients);
-        writeToFile.writeToAppAccounts(appAccounts, controller);
-        writeToFile.writeToBankAccounts(bankAccounts, controller);
-        writeToFile.writeToSavingAccounts(savingAccounts, controller);
-        writeToFile.writeToCreditCards(creditCards, controller);
-        writeToFile.writeToDebitCards(controller.debitCards, controller);
-        writeToFile.writeToTransactions(transactions, controller);
-
+        LoadDataToFiles loadDataToFiles = new LoadDataToFiles();
+        loadDataToFiles.loadDataToFile(controller);
 
     }
 
