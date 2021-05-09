@@ -11,7 +11,7 @@ public class Client{
     private String lastName;
     private String phoneNumber;
     private String email;
-    private int appAccountId = 0;
+    private int appAccountId = -1;
     private long PNC;
 
 

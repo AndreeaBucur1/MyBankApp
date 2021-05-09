@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ReadFromFile {
-    public void readClients(String filePath,Controller controller){
+    public void readClients(String filePath, Controller controller){
         File file = new File(filePath);
         Scanner reader = null;
         try {
@@ -181,7 +181,7 @@ public class ReadFromFile {
         reader.close();
     }
 
-    public void readTransactions(String filePath,Controller controller){
+    public void readTransactions(String filePath, Controller controller){
         File file = new File(filePath);
         Scanner reader = null;
         try {

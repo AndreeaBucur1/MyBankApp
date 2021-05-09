@@ -1,8 +1,12 @@
 package com.company;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.function.DoubleBinaryOperator;
 
 public class Controller {
 
@@ -13,6 +17,9 @@ public class Controller {
         }
         return single_instance;
     }
+
+    DatabaseConnection databaseConnection = new DatabaseConnection();
+    Connection connection = databaseConnection.Connection();
 
     ArrayList<Client> clients = new ArrayList<>();
     ArrayList<BankAccount> bankAccounts = new ArrayList<>();
@@ -158,8 +165,8 @@ public class Controller {
     }
 
 
-    public void displayCards(ArrayList<Card> cards){
-        System.out.println("Cards: ");
+    public void displayCards(){
+        System.out.println("All cards: ");
         for(Card card : allCards){
             System.out.println(card);
         }
@@ -177,6 +184,14 @@ public class Controller {
         System.out.println("Debit cards: ");
         for(DebitCard debitCard : debitCards)
             System.out.println(debitCard);
+        System.out.println();
+    }
+
+    public void displayAccountStatements(ArrayList<AccountStatement>accountStatements){
+        System.out.println("Account statements:");
+        for(AccountStatement accountStatement : accountStatements){
+            System.out.println(accountStatement);
+        }
         System.out.println();
     }
 
@@ -265,7 +280,6 @@ public class Controller {
     }
 
 
-
     //"Add" functions
 
 
@@ -311,6 +325,16 @@ public class Controller {
                 AppAccount appAccount = new AppAccount(password);
                 appAccounts.add(appAccount);
                 client.setAppAccountId(appAccount.getAppAccountId());
+                PreparedStatement statement = null;
+                try{
+                    statement = connection.prepareStatement("INSERT INTO appaccount (accesstoken,password) values (?,?)");
+                    statement.setInt(1,appAccount.getAccessToken());
+                    statement.setString(2, appAccount.getPassword());
+                    statement.execute();
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             } else {
                 System.out.println("This client already has an account");
                 throw new MyException("Client already has an account");

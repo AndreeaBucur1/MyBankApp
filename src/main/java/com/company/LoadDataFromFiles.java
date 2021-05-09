@@ -4,26 +4,26 @@ public class LoadDataFromFiles {
     public void loadData(Controller controller){
         ReadFromFile readFromFile = new ReadFromFile();
 
-        readFromFile.readClients("src/com/company/clients.csv", controller);
+        readFromFile.readClients("src/main/java/com/company/clients.csv", controller);
         controller.displayClients(controller.getClients());
 
-        readFromFile.readAppAccounts("src/com/company/appAccounts.csv", controller);
+        readFromFile.readAppAccounts("src/main/java/com/company/appAccounts.csv", controller);
         controller.displayAppAccounts(controller.getAppAccounts());
 
-        readFromFile.readBankAccounts("src/com/company/bankAccounts.csv", controller);
-        readFromFile.readSavingAccounts("src/com/company/savAcc.csv", controller);
+        readFromFile.readBankAccounts("src/main/java/com/company/bankAccounts.csv", controller);
+        readFromFile.readSavingAccounts("src/main/java/com/company/savAcc.csv", controller);
         controller.displayBankAccounts(controller.getBankAccounts());
         controller.displaySavingAccounts(controller.getSavingAccounts());
 
-        readFromFile.readCreditCards("src/com/company/creditCards.csv", controller);
+        readFromFile.readCreditCards("src/main/java/com/company/creditCards.csv", controller);
         controller.displayCreditCards(controller.getCreditCards());
         controller.displayBankAccounts(controller.getBankAccounts());
         controller.displaySavingAccounts(controller.getSavingAccounts());
 
-        readFromFile.readDebitCards("src/com/company/debitCards.csv", controller);
+        readFromFile.readDebitCards("src/main/java/com/company/debitCards.csv", controller);
         controller.displayDebitCards(controller.debitCards);
 
-        readFromFile.readTransactions("src/com/company/transactions.csv", controller);
+        readFromFile.readTransactions("src/main/java/com/company/transactions.csv", controller);
 
 
         controller.displayClients(controller.getClients());

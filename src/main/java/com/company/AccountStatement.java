@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class AccountStatement {
     private int AccountStatementId;
     private static int id = 0;
+    private int bankAccountId;
+    private LocalDate date;
+    private ArrayList<Transaction> transactions;
 
     public AccountStatement(int accountStatementId, int bankAccountId, LocalDate date, ArrayList<Transaction> transactions) {
         AccountStatementId = accountStatementId;
@@ -14,9 +17,6 @@ public class AccountStatement {
         this.date = date;
         this.transactions = transactions;
     }
-
-    private int bankAccountId;
-    private LocalDate date;
 
     public ArrayList<Transaction> getTransactions() {
         return transactions;
@@ -26,7 +26,7 @@ public class AccountStatement {
         this.transactions = transactions;
     }
 
-    private ArrayList<Transaction> transactions;
+
 
     public AccountStatement(int bankAccountId, LocalDate date,ArrayList<Transaction> transactions) {
         AccountStatementId = ++id;

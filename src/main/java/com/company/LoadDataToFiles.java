@@ -11,13 +11,13 @@ public class LoadDataToFiles {
         //Inainte de a scrie datele in fisier, le sterg pe cele existente
 
         try {
-            FileWriter writeToClients = new FileWriter("src/com/company/clients.csv", false);
-            FileWriter writeToAppAccounts = new FileWriter("src/com/company/appAccounts.csv", false);
-            FileWriter writeToBankAccounts = new FileWriter("src/com/company/bankAccounts.csv", false);
-            FileWriter writeToSavingAccounts = new FileWriter("src/com/company/savAcc.csv", false);
-            FileWriter writeToCreditCards = new FileWriter("src/com/company/creditCards.csv", false);
-            FileWriter writeToDebitCards = new FileWriter("src/com/company/debitCards.csv", false);
-            FileWriter writeToTransactions = new FileWriter("src/com/company/transactions.csv", false);
+            FileWriter writeToClients = new FileWriter("src/main/java/com/company/clients.csv", false);
+            FileWriter writeToAppAccounts = new FileWriter("src/main/java/com/company/appAccounts.csv", false);
+            FileWriter writeToBankAccounts = new FileWriter("src/main/java/com/company/bankAccounts.csv", false);
+            FileWriter writeToSavingAccounts = new FileWriter("src/main/java/com/company/savAcc.csv", false);
+            FileWriter writeToCreditCards = new FileWriter("src/main/java/com/company/creditCards.csv", false);
+            FileWriter writeToDebitCards = new FileWriter("src/main/java/com/company/debitCards.csv", false);
+            FileWriter writeToTransactions = new FileWriter("src/main/java/com/company/transactions.csv", false);
             writeToCreditCards.close();
             writeToAppAccounts.close();
             writeToClients.close();

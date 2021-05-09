@@ -2,6 +2,10 @@ package com.company;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -10,6 +14,11 @@ public class Main {
 
     public static void main(String[] args) {
         Controller controller = Controller.Singleton();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        Connection connection = databaseConnection.Connection();
+
+
+
 
         ArrayList<Client> clients = controller.getClients();
         ArrayList<BankAccount> bankAccounts = controller.getBankAccounts();
