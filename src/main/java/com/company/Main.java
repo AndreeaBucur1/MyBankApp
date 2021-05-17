@@ -1,11 +1,8 @@
 package com.company;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import com.company.Database.DatabaseConnection;
+
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;

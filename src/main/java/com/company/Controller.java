@@ -1,12 +1,11 @@
 package com.company;
 
+import com.company.Database.DatabaseConnection;
+
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.function.DoubleBinaryOperator;
 
 public class Controller {
 
@@ -297,7 +296,8 @@ public class Controller {
             bankAccounts.add(bankAccount);
             Client client = findClient(clientId);
             client.getBankAccounts().add(bankAccount);
-            allBankAccounts.add(bankAccount);
+            databaseConnection.addBankAccount(bankAccount,clientId);
+
 
         }
         else{
@@ -311,7 +311,7 @@ public class Controller {
         if(findClient(clientId) != null) {
             Client client = findClient(clientId);
             String password = "";
-            if (client.getAppAccountId() == 0) {
+            if (client.getAppAccountId() == -1) {
                 char lastName = client.getLastName().charAt(0);
                 char firstName = client.getFirstName().charAt(0);
                 long lastDigits = client.getPNC();
@@ -323,18 +323,8 @@ public class Controller {
                 password = password + lastName + firstName;
                 password = password + lastDigits;
                 AppAccount appAccount = new AppAccount(password);
-                appAccounts.add(appAccount);
-                client.setAppAccountId(appAccount.getAppAccountId());
-                PreparedStatement statement = null;
-                try{
-                    statement = connection.prepareStatement("INSERT INTO appaccount (accesstoken,password) values (?,?)");
-                    statement.setInt(1,appAccount.getAccessToken());
-                    statement.setString(2, appAccount.getPassword());
-                    statement.execute();
+                databaseConnection.addAppAccount(appAccount,clientId);
 
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
             } else {
                 System.out.println("This client already has an account");
                 throw new MyException("Client already has an account");
@@ -384,9 +374,7 @@ public class Controller {
             Client client = findClient(clientId);
             LocalDate openingDate = LocalDate.now();
             SavingAccount savingAccount = new SavingAccount(openingDate);
-            savingAccounts.add(savingAccount);
-            client.addBankAccount(savingAccount);
-            allBankAccounts.add(savingAccount);
+            databaseConnection.addSavingAccount(savingAccount,clientId);
         }
         else {
             System.out.println("Cannot add this saving account. Client does not exist");
