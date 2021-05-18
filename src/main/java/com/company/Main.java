@@ -1,8 +1,10 @@
 package com.company;
 
 import com.company.Database.DatabaseConnection;
+import com.company.Database.GetFromDatabase;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -14,29 +16,13 @@ public class Main {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Connection connection = databaseConnection.Connection();
 
-
-
-
-        ArrayList<Client> clients = controller.getClients();
-        ArrayList<BankAccount> bankAccounts = controller.getBankAccounts();
-        ArrayList<Card> cards = controller.getCards();
-        ArrayList<AppAccount> appAccounts = controller.getAppAccounts();
-        ArrayList<CreditCard> creditCards = controller.getCreditCards();
-        ArrayList<SavingAccount> savingAccounts = controller.getSavingAccounts();
-        ArrayList<Transaction> transactions = controller.getTransactions();
-
-
-        LoadDataFromFiles loadDataFromFiles = new LoadDataFromFiles();
-        loadDataFromFiles.loadData(controller);
-
-
-        controller.setTransactions(transactions);
-        controller.setBankAccounts(bankAccounts);
-        controller.setCards(cards);
-        controller.setClients(clients);
-        controller.setAppAccounts(appAccounts);
-        controller.setSavingAccounts(savingAccounts);
-        controller.setCreditCards(creditCards);
+        GetFromDatabase getFromDatabase = new GetFromDatabase();
+        try {
+            getFromDatabase.getBankAccounts();
+            getFromDatabase.getSavingAccounts();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         int option;
         do {
@@ -66,10 +52,10 @@ public class Main {
         } while (option != 4);
 
         //Sortez clientii dupa nume
-        clients.sort(Comparator.comparing(Client::getLastName));
+//        clients.sort(Comparator.comparing(Client::getLastName));
 
-        LoadDataToFiles loadDataToFiles = new LoadDataToFiles();
-        loadDataToFiles.loadDataToFile(controller);
+//        LoadDataToFiles loadDataToFiles = new LoadDataToFiles();
+//        loadDataToFiles.loadDataToFile(controller);
 
     }
 

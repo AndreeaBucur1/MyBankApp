@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.Database.DatabaseConnection;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ManagerServices {
@@ -13,18 +14,15 @@ public class ManagerServices {
             System.out.println("Enter your access token");
             Scanner scanner = new Scanner(System.in);
             int accessToken = scanner.nextInt();
-            if(controller.findAppAccountByAccessToken(accessToken) != null){
-                AppAccount managerAccount = controller.findAppAccountByAccessToken(accessToken);
-                System.out.println(managerAccount);
+            if(accessToken == 1){
                 System.out.println("Enter your password");
                 String password = scanner.next();
-                if(managerAccount.getPassword().compareTo(password) != 0){
+                if(password.compareTo("manager") != 0){
                     System.out.println("Wrong password");
+                    AppAccount managerAccount = new AppAccount(accessToken,password);
+
                 }
-                else if(managerAccount.getPassword().compareTo(password) == 0) {
-                    if (managerAccount.getAppAccountId() != 0) {
-                        System.out.println("This account does not belong to the manager");
-                    } else {
+                    else {
                         okPass = true;
                         int option;
                         do {
@@ -108,7 +106,12 @@ public class ManagerServices {
                                 controller.displayClients(controller.getClients());
                                 System.out.println("Enter the id of the client: ");
                                 int clientId = scanner.nextInt();
-                                Client client = controller.findClient(clientId);
+                                Client client = null;
+                                try {
+                                    client = controller.findClientById(clientId);
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
                                 if(client != null) {
                                     System.out.println("This are the bank accounts of this client:");
                                     int bankAccountNr = 0;
@@ -236,7 +239,7 @@ public class ManagerServices {
                     }
                 }
 
-            }
+
             else {
                 System.out.println("Wrong access token");
             }

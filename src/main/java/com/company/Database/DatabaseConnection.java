@@ -33,11 +33,12 @@ public class DatabaseConnection {
     public void addClient(Client client){
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement("INSERT INTO client (firstName, lastName, phoneNumber, email) values (?,?,?,?)");
+            statement = connection.prepareStatement("INSERT INTO client (firstName, lastName, phoneNumber, email,pnc) values (?,?,?,?,?)");
             statement.setString(1,client.getFirstName());
             statement.setString(2,client.getLastName());
             statement.setString(3,client.getPhoneNumber());
             statement.setString(4,client.getEmail());
+            statement.setLong(5,client.getPNC());
             statement.execute();
 
         } catch (SQLException throwables) {

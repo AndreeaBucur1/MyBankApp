@@ -2,6 +2,7 @@ package com.company;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -78,7 +79,12 @@ public class ReadFromFile {
             else{
                 BankAccount bankAccount = new BankAccount(Integer.valueOf(tokens[0]),tokens[1],Float.valueOf(tokens[2]), LocalDate.parse(tokens[3]));
                 controller.getBankAccounts().add(bankAccount);
-                Client client = controller.findClient(Integer.valueOf(tokens[4]));
+                Client client = null;
+                try {
+                    client = controller.findClientById(Integer.valueOf(tokens[4]));
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
                 client.getBankAccounts().add(bankAccount);
                 controller.getAllBankAccounts().add(bankAccount);
 

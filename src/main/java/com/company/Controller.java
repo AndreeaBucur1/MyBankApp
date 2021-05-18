@@ -1,8 +1,12 @@
 package com.company;
 
 import com.company.Database.DatabaseConnection;
+import com.company.Database.GetFromDatabase;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,6 +23,8 @@ public class Controller {
 
     DatabaseConnection databaseConnection = new DatabaseConnection();
     Connection connection = databaseConnection.Connection();
+    GetFromDatabase getFromDatabase = new GetFromDatabase();
+
 
     ArrayList<Client> clients = new ArrayList<>();
     ArrayList<BankAccount> bankAccounts = new ArrayList<>();
@@ -31,6 +37,7 @@ public class Controller {
     ArrayList<SavingAccount> savingAccounts = new ArrayList<>();
     ArrayList<BankAccount> allBankAccounts = new ArrayList<>();
     ArrayList<Card> allCards = new ArrayList<>();
+
 
     public void setClients(ArrayList<Client> clients) {
         this.clients = clients;
@@ -209,36 +216,65 @@ public class Controller {
     //"Find" functions
 
     public AppAccount findAppAccountByAccessToken(int accessToken){
-        for(AppAccount appAccount : appAccounts){
-            if(appAccount.getAccessToken() == accessToken)
+        ArrayList<AppAccount> allAppAccounts = new ArrayList<>();
+        try {
+            allAppAccounts = getFromDatabase.getAppAccounts();
+            for(AppAccount appAccount : allAppAccounts){
+                if(appAccount.getAccessToken() == accessToken)
+                    System.out.println(appAccount);
                     return appAccount;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
         }
+
         return null;
     }
 
     public Client findClientByAppAccountId(int appAccountId){
-        for(Client client : clients){
-            if(client.getAppAccountId() == appAccountId){
-                return client;
+
+        try {
+            ArrayList<Client> allClients = getFromDatabase.getClients();
+            for(Client client : allClients){
+                if(client.getAppAccountId() == appAccountId){
+                    return client;
+                }
             }
+        } catch (SQLException throwables) {
+
         }
         return null;
+
     }
 
 
-    public Client findClient(int id){
-        for(Client client : clients){
-            if (client.getClientId() == id)
-                return client;
+    public Client findClientById(int clientId) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from client where clientid =" + clientId);
+        System.out.println(clientId);
+        while(resultSet.next()){
+            Client client = new Client(resultSet.getInt("clientId"),resultSet.getString("firstname"),resultSet.getString("lastname"),resultSet.getString("phonenumber"),resultSet.getString("email"),resultSet.getInt("appaccountid"),resultSet.getLong("pnc"));
+            System.out.println(client);
+            return client;
         }
+
         return null;
     }
 
     public BankAccount findBankAccount(int id){
-        for(BankAccount bankAccount : allBankAccounts){
-            if (bankAccount.getBankAccountId() == id)
-                return bankAccount;
+        ArrayList<BankAccount> allBankAccounts = new ArrayList<>();
+        try {
+            System.out.println(allBankAccounts);
+            allBankAccounts = getFromDatabase.getBankAccounts();
+            for(BankAccount bankAccount : allBankAccounts){
+                if (bankAccount.getBankAccountId() == id)
+                    return bankAccount;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+
         return null;
     }
 
@@ -290,50 +326,60 @@ public class Controller {
 
 
     public void addBankAccount(int clientId) throws MyException {
-        if (findClient(clientId) != null) {
-            LocalDate openingDate = LocalDate.now();
-            BankAccount bankAccount = new BankAccount( openingDate);
-            bankAccounts.add(bankAccount);
-            Client client = findClient(clientId);
-            client.getBankAccounts().add(bankAccount);
-            databaseConnection.addBankAccount(bankAccount,clientId);
+        try {
+            if (findClientById(clientId) != null) {
+                LocalDate openingDate = LocalDate.now();
+                BankAccount bankAccount = new BankAccount( openingDate);
+                bankAccounts.add(bankAccount);
+                Client client = findClientById(clientId);
+                client.getBankAccounts().add(bankAccount);
+                databaseConnection.addBankAccount(bankAccount,clientId);
 
 
-        }
-        else{
-            System.out.println("Client does not exist!");
-            throw new MyException("Client does not exist");
+            }
+            else{
+                System.out.println("Client does not exist!");
+                throw new MyException("Client does not exist");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
 
     public void addAppAccount(int clientId) throws MyException {
-        if(findClient(clientId) != null) {
-            Client client = findClient(clientId);
-            String password = "";
-            if (client.getAppAccountId() == -1) {
-                char lastName = client.getLastName().charAt(0);
-                char firstName = client.getFirstName().charAt(0);
-                long lastDigits = client.getPNC();
-                lastDigits = lastDigits % 10000;
-                if (lastDigits < 1000) {
-                    lastDigits = 1000 + lastDigits;
+        try {
+            if(findClientById(clientId) != null) { ;
+                Client client = findClientById(clientId);
+                System.out.println(client);
+                String password = "";
+                System.out.println((Integer) client.getAppAccountId());
+                if (client.getAppAccountId() == 0) {
+                    char lastName = client.getLastName().charAt(0);
+                    char firstName = client.getFirstName().charAt(0);
+                    long lastDigits = client.getPNC();
+                    lastDigits = lastDigits % 10000;
+                    if (lastDigits < 1000) {
+                        lastDigits = 1000 + lastDigits;
+                    }
+
+                    password = password + lastName + firstName;
+                    password = password + lastDigits;
+                    AppAccount appAccount = new AppAccount(password);
+                    databaseConnection.addAppAccount(appAccount,clientId);
+
+                } else {
+                    System.out.println("This client already has an account");
+                    throw new MyException("Client already has an account");
                 }
-
-                password = password + lastName + firstName;
-                password = password + lastDigits;
-                AppAccount appAccount = new AppAccount(password);
-                databaseConnection.addAppAccount(appAccount,clientId);
-
-            } else {
-                System.out.println("This client already has an account");
-                throw new MyException("Client already has an account");
             }
-        }
-        else{
-            System.out.println("Client does not exist");
-            throw new MyException("Client does not exist");
+            else{
+                System.out.println("Client does not exist");
+                throw new MyException("Client does not exist");
 
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -370,15 +416,19 @@ public class Controller {
     }
 
     public void addSavingAccount(int clientId) throws MyException {
-        if(findClient(clientId) != null){
-            Client client = findClient(clientId);
-            LocalDate openingDate = LocalDate.now();
-            SavingAccount savingAccount = new SavingAccount(openingDate);
-            databaseConnection.addSavingAccount(savingAccount,clientId);
-        }
-        else {
-            System.out.println("Cannot add this saving account. Client does not exist");
-            throw new MyException("Client does not exist");
+        try {
+            if(findClientById(clientId) != null){
+                Client client = findClientById(clientId);
+                LocalDate openingDate = LocalDate.now();
+                SavingAccount savingAccount = new SavingAccount(openingDate);
+                databaseConnection.addSavingAccount(savingAccount,clientId);
+            }
+            else {
+                System.out.println("Cannot add this saving account. Client does not exist");
+                throw new MyException("Client does not exist");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 

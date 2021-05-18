@@ -22,6 +22,9 @@ public class AppAccount {
 
     }
 
+    public AppAccount(int accessToken, String password) {
+    }
+
     public int getAppAccountId() {
         return appAccountId;
     }
