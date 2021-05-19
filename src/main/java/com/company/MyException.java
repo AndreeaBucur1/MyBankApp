@@ -6,7 +6,7 @@ public class MyException extends Exception {
     }
 
     // parametrized constructor
-    MyException(String str) {
+    public MyException(String str) {
         super(str);
     }
 
