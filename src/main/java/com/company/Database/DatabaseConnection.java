@@ -53,7 +53,7 @@ public class DatabaseConnection {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement("INSERT INTO appaccount (accesstoken,password) values (?,?)");
-            statement.setInt(1, appAccount.getAccessToken());
+            statement.setInt(1, 100000 + clientId);
             statement.setString(2, appAccount.getPassword());
             statement.execute();
 
@@ -64,19 +64,27 @@ public class DatabaseConnection {
             preparedStatement.setInt(1, lastId);
             preparedStatement.setInt(2, clientId);
             preparedStatement.execute();
-
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public void addBankAccount(BankAccount bankAccount, int clientId) {
+    public void addBankAccount(BankAccount bankAccount, int clientId) throws SQLException {
         PreparedStatement preparedStatement = null;
         GetFromDatabase getFromDatabase = new GetFromDatabase();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from id");
+        int last_id = 0;
+        while (resultSet.next()){
+            last_id = resultSet.getInt("iban_nr");
+        }
+        PreparedStatement preparedStatement1 = connection.prepareStatement("update id set iban_nr = ? where iban_nr = ?");
+        preparedStatement1.setLong(1,last_id + 1);
+        preparedStatement1.setLong(2,last_id);
+        preparedStatement1.execute();
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO bankaccount (iban,balance,openingdate) values (?,?,?)");
-            preparedStatement.setString(1, bankAccount.getIBAN());
+            preparedStatement.setString(1, "ROMBA" + last_id);
             preparedStatement.setFloat(2, bankAccount.getBalance());
             preparedStatement.setDate(3, Date.valueOf(bankAccount.getOpeningDate()));
             preparedStatement.execute();
@@ -90,12 +98,22 @@ public class DatabaseConnection {
         }
     }
 
-    public void addSavingAccount(SavingAccount savingAccount, int clientId) {
+    public void addSavingAccount(SavingAccount savingAccount, int clientId) throws SQLException {
         PreparedStatement preparedStatement = null;
         GetFromDatabase getFromDatabase = new GetFromDatabase();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from id");
+        int last_id = 0;
+        while (resultSet.next()){
+            last_id = resultSet.getInt("iban_nr");
+        }
+        PreparedStatement preparedStatement1 = connection.prepareStatement("update id set iban_nr = ? where iban_nr = ?");
+        preparedStatement1.setLong(1,last_id + 1);
+        preparedStatement1.setLong(2,last_id);
+        preparedStatement1.execute();
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO bankaccount (iban,balance,openingdate) values (?,?,?)");
-            preparedStatement.setString(1, savingAccount.getIBAN());
+            preparedStatement.setString(1, "ROMBA" + last_id);
             preparedStatement.setFloat(2, savingAccount.getBalance());
             preparedStatement.setDate(3, Date.valueOf(savingAccount.getOpeningDate()));
             preparedStatement.execute();
@@ -126,11 +144,21 @@ public class DatabaseConnection {
         }
     }
 
-    public void addCreditCard(CreditCard creditCard, int bankAccountId) {
+    public void addCreditCard(CreditCard creditCard, int bankAccountId) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from id");
+        int last_id = 0;
+        while (resultSet.next()){
+            last_id = resultSet.getInt("iban_nr");
+        }
+        PreparedStatement preparedStatement1 = connection.prepareStatement("update id set card_nr = ? where card_nr = ?");
+        preparedStatement1.setLong(1,last_id + 1);
+        preparedStatement1.setLong(2,last_id);
+        preparedStatement1.execute();
         try {
             preparedStatement = connection.prepareStatement("insert into card(cardnumber,cvv,expirationdate,bankaccountid) values (?,?,?,?)");
-            preparedStatement.setLong(1, creditCard.getCardNumber());
+            preparedStatement.setLong(1, last_id + 1);
             preparedStatement.setInt(2, creditCard.getCVV());
             preparedStatement.setDate(3, Date.valueOf(creditCard.getExpirationDate()));
             preparedStatement.setInt(4, bankAccountId);
@@ -138,12 +166,12 @@ public class DatabaseConnection {
             preparedStatement.execute();
             preparedStatement = connection.prepareStatement("insert into creditcard values (?,?,?)");
             int creditCardId;
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select MAX(cardid) as cardidd from card");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select MAX(cardid) as cardidd from card");
 
             if (resultSet.next() != false) {
                 creditCardId = resultSet.getInt("cardidd");
-                PreparedStatement preparedStatement1 = connection.prepareStatement("update card set cardnumber = ? where cardid = ?");
+                preparedStatement1 = connection.prepareStatement("update card set cardnumber = ? where cardid = ?");
                 preparedStatement1.setLong(1,1000000000 + creditCardId);
                 preparedStatement1.setInt(2,creditCardId);
                 preparedStatement1.execute();
@@ -166,11 +194,21 @@ public class DatabaseConnection {
 
     }
 
-    public void addDebitCard(DebitCard debitCard, int bankAccountId) {
+    public void addDebitCard(DebitCard debitCard, int bankAccountId) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from id");
+        int last_id = 0;
+        while (resultSet.next()){
+            last_id = resultSet.getInt("iban_nr");
+        }
+        PreparedStatement preparedStatement1 = connection.prepareStatement("update id set card_nr = ? where card_nr = ?");
+        preparedStatement1.setLong(1,last_id + 1);
+        preparedStatement1.setLong(2,last_id);
+        preparedStatement1.execute();
         try {
             preparedStatement = connection.prepareStatement("insert into card(cardnumber,cvv,expirationdate,bankaccountid) values (?,?,?,?)");
-            preparedStatement.setLong(1, debitCard.getCardNumber());
+            preparedStatement.setLong(1, last_id);
             preparedStatement.setInt(2, debitCard.getCVV());
             preparedStatement.setDate(3, Date.valueOf(debitCard.getExpirationDate()));
             preparedStatement.setInt(4, bankAccountId);
@@ -178,11 +216,11 @@ public class DatabaseConnection {
             preparedStatement.execute();
             preparedStatement = connection.prepareStatement("insert into debitcard values (?,?,?)");
             int debitCardId;
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select MAX(cardid) as cardidd from card");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select MAX(cardid) as cardidd from card");
             while (resultSet.next()) {
                 debitCardId = resultSet.getInt("cardidd");
-                PreparedStatement preparedStatement1 = connection.prepareStatement("update card set cardnumber = ? where cardid = ?");
+                preparedStatement1 = connection.prepareStatement("update card set cardnumber = ? where cardid = ?");
                 preparedStatement1.setLong(1,1000000000 + debitCardId);
                 preparedStatement1.setInt(2,debitCardId + 1000);
                 preparedStatement1.execute();
@@ -199,7 +237,6 @@ public class DatabaseConnection {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
 
     }
 

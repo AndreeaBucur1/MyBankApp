@@ -162,13 +162,13 @@ public class Controller {
     //"Find" functions
 
     public AppAccount findAppAccountByAccessToken(int accessToken){
-        ArrayList<AppAccount> allAppAccounts = new ArrayList<>();
+        ArrayList<AppAccount> allAppAccounts;
         try {
             allAppAccounts = getFromDatabase.getAppAccounts();
             for(AppAccount appAccount : allAppAccounts){
-                if(appAccount.getAccessToken() == accessToken)
-                    System.out.println(appAccount);
+                if(appAccount.getAccessToken() == accessToken) {
                     return appAccount;
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -339,7 +339,11 @@ public class Controller {
         if(findBankAccountById(bankAccountId) != null){
             LocalDate expirationDate = LocalDate.now().plusYears(4);
             CreditCard creditCard = new CreditCard(bankAccountId,expirationDate,expirationDate);
-            databaseConnection.addCreditCard(creditCard,bankAccountId);
+            try {
+                databaseConnection.addCreditCard(creditCard,bankAccountId);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         else{
             System.out.println("Cannot add credit card. This bank account does not exist");
@@ -351,7 +355,11 @@ public class Controller {
         if(findBankAccountById(bankAccountId) != null){
             LocalDate expirationDate = LocalDate.now().plusYears(4);
             DebitCard debitCard = new DebitCard(bankAccountId,expirationDate);
-            databaseConnection.addDebitCard(debitCard,bankAccountId);
+            try {
+                databaseConnection.addDebitCard(debitCard,bankAccountId);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         else{
             System.out.println("Cannot add debit card. This bank account does not exist.");
@@ -494,20 +502,32 @@ public class Controller {
             if(transferFrom.getBalance() < sum) {
                 String transactionName = "Failed attempt to transfer money";
                 Transaction transaction = new Transaction(transferFromBankAccountId,transactionName, LocalDate.now(),0);
-                transactions.add(transaction);
                 throw new MyException("Not enough money to transfer.");
             }
             else{
                 String transactionName = "Money transfer";
                 MoneyTransfer transfer = new MoneyTransfer(transferFromBankAccountId,transactionName, LocalDate.now(),sum,transferToBankAccountId);
                 transactions.add(transfer);
-                transferFrom.setBalance(transferFrom.getBalance() - sum);
-                transferTo.setBalance(transferTo.getBalance() + sum);
+                try {
+                    updateSold(transferFromBankAccountId,transferFrom.getBalance() - sum);
+                    updateSold(transferToBankAccountId,transferTo.getBalance() + sum);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
         else{
             System.out.println("Bank account does not exist");
         }
+    }
+
+    public void updateSold(int bankAccountId,float sold) throws SQLException {
+        BankAccount bankAccount = findBankAccountById(bankAccountId);
+        PreparedStatement preparedStatement = connection.prepareStatement("update bankaccount set balance = ? where bankaccountid = ?");
+        preparedStatement.setFloat(1,sold);
+        preparedStatement.setInt(2,bankAccountId);
+        preparedStatement.execute();
+
     }
 
     public AccountStatement accountStatement(int bankAccountId,int month) {
@@ -522,6 +542,13 @@ public class Controller {
         AccountStatement accountStatement = new AccountStatement(bankAccountId, LocalDate.now(), accountTransactions);
         accountStatements.add(accountStatement);
         return accountStatement;
+    }
+
+    public void changePassword(int appAccountId,String newPassword) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("update appaccount set password = ? where appaccountid = ?");
+        preparedStatement.setString(1,newPassword);
+        preparedStatement.setInt(2,appAccountId);
+        preparedStatement.execute();
     }
 
 

@@ -23,6 +23,7 @@ public class AppAccountServices {
             System.out.println("Enter your password: ");
             String password = scan.next();
             AppAccount appAccount = controller.findAppAccountByAccessToken(accessToken);
+            System.out.println(appAccount);
 
             if (appAccount != null && appAccount.getAppAccountId() != 0) {
                 if (appAccount.getPassword().compareTo(password) != 0) {
@@ -31,21 +32,23 @@ public class AppAccountServices {
                     writeToFiles.writeToAudit("Connection to the app account");
                     okPass = true;
 
-                    Client client = controller.findClientByAppAccountId(appAccount.getAppAccountId());
-                    try {
-                        client.setBankAccounts(getFromDatabase.getClientsBankAccounts(client.getClientId()));
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+
                     int newOption;
                     do {
+                        Client client = controller.findClientByAppAccountId(appAccount.getAppAccountId());
+                        try {
+                            client.setBankAccounts(getFromDatabase.getClientsBankAccounts(client.getClientId()));
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                         System.out.println(client);
                         System.out.println("Choose an option:");
                         System.out.println();
                         System.out.println("Option 1: Check balance");
                         System.out.println("Option 2: Transfer money");
                         System.out.println("Option 3: Get an account statement");
-                        System.out.println("Option 4: Exit");
+                        System.out.println("Option 4: Change password");
+                        System.out.println("Option 5: Exit");
                         System.out.println();
 
 
@@ -58,6 +61,8 @@ public class AppAccountServices {
                                 System.out.println();
                                 writeToFiles.writeToAudit("Balance check");
                             }
+
+
 
                         } else if (newOption == 2) {
                             ArrayList<BankAccount> clientBankAccounts = client.getBankAccounts();
@@ -104,6 +109,24 @@ public class AppAccountServices {
                             }
 
                         }
+
+
+
+                        else if(newOption == 4){
+                            System.out.println("Enter the new password");
+                            String newPassword = scan.next();
+                            try {
+                                controller.changePassword(appAccount.getAppAccountId(),newPassword);
+                                System.out.println("Password changed successfully");
+                            } catch (SQLException throwables) {
+                                System.out.println("Could not change password");
+                            }
+
+
+
+                        }
+
+
                         else if(newOption == 3) {
                             System.out.println("Enter the number of the month: ");
                             int month = scan.nextInt();
@@ -123,10 +146,13 @@ public class AppAccountServices {
 
 
                         }
-                        else if (newOption == 4) {
+
+
+
+                        else if (newOption == 5) {
                             System.out.println("You signed out of your account");
                         }
-                    } while (newOption != 4);
+                    } while (newOption != 5);
                 }
             } else {
                 System.out.println("Wrong access token");

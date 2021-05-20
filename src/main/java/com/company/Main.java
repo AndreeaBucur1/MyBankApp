@@ -27,9 +27,11 @@ public class Main {
 //            System.out.println(controller.findClientByBankAccountId(1));
 //            System.out.println(controller.findBankAccountById(1));
 //            System.out.println(controller.findBankAccountByIban("ROMBA10000009"));
-            System.out.println(getFromDatabase.getClientsBankAccounts(2));
-            System.out.println(getFromDatabase.getCreditCards());
-            System.out.println(getFromDatabase.getDebitCards());
+            System.out.println(getFromDatabase.getAppAccounts());
+//            System.out.println(getFromDatabase.getClientsBankAccounts(2));
+//            System.out.println(getFromDatabase.getCreditCards());
+//            System.out.println(getFromDatabase.getDebitCards());
+            System.out.println(controller.findAppAccountByAccessToken(100001));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
