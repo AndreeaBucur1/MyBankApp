@@ -2,6 +2,8 @@ package com.company.ServiceClasses;
 
 import com.company.*;
 import com.company.BankAccounts.BankAccount;
+import com.company.Cards.CreditCard;
+import com.company.Cards.DebitCard;
 import com.company.Client.AppAccount;
 import com.company.Client.Client;
 import com.company.Database.DatabaseConnection;
@@ -15,6 +17,7 @@ public class ManagerServices {
         WriteToFiles writeToFiles = new WriteToFiles();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         GetFromDatabase getFromDatabase = new GetFromDatabase();
+        DeleteFromDatabase deleteFromDatabase = new DeleteFromDatabase();
         boolean okPass = false;
         do{
             System.out.println("Enter your access token");
@@ -40,11 +43,16 @@ public class ManagerServices {
                             System.out.println("Option 3: Add bank account");
                             System.out.println("Option 4: Add card");
                             System.out.println("Option 5: Display all data");
-                            System.out.println("Option 6: Exit");
+                            System.out.println("Option 6: Delete credit card");
+                            System.out.println("Option 7: Delete debit card");
+                            System.out.println("Option 8: Delete bank account");
+                            System.out.println("Option 9: Delete client");
+                            System.out.println("Option 10: Delete app account");
+                            System.out.println("Option 11: Exit");
                             System.out.println();
 
                             option = scanner.nextInt();
-                            if (option > 6) {
+                            if (option > 11) {
                                 System.out.println("Choose a valid option");
                                 System.out.println();
                             } else if (option == 1) {
@@ -238,8 +246,46 @@ public class ManagerServices {
 
                             }
 
+                            else if(option == 6) {
+                                controller.displayCreditCards();
+                                System.out.print("Enter the number of the credit card you want to delete: ");
+                                Long creditCardNumber = scanner.nextLong();
+                                if (controller.findCardByNumber(creditCardNumber) != null) {
+                                    if(controller.findCardByNumber(creditCardNumber) instanceof CreditCard) {
+                                        try {
+                                            CreditCard creditCard = (CreditCard) controller.findCardByNumber(creditCardNumber);
+                                            deleteFromDatabase.deleteCreditCard(creditCard);
+                                        } catch (SQLException throwables) {
+                                            throwables.printStackTrace();
+                                        }
+                                    }
+                                    else{
+                                        System.out.println("You are trying to delete a debit card.");
+                                    }
+                                }
+                            }
 
-                    } while (option != 6);
+                            else if(option == 7){
+                                controller.displayDebitCards();
+                                System.out.print("Enter the number of the debit card you want to delete: ");
+                                Long debitCardNumber = scanner.nextLong();
+                                if(controller.findCardByNumber(debitCardNumber) != null){
+                                    if(controller.findCardByNumber(debitCardNumber) instanceof DebitCard){
+                                        try {
+                                            DebitCard debitCard = (DebitCard) controller.findCardByNumber(debitCardNumber);
+                                            deleteFromDatabase.deleteDebitCard(debitCard);
+                                        } catch (SQLException throwables) {
+                                            throwables.printStackTrace();
+                                        }
+                                    }
+                                    else {
+                                        System.out.println("You are trying to delete a credit card.");
+                                    }
+                                }
+                            }
+
+
+                    } while (option != 11);
 
                     }
                 }
