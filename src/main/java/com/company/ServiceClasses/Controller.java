@@ -394,6 +394,7 @@ public class Controller {
         if(bankAccount != null){
             String transactionName = "Add funds";
             Transaction transaction = new Transaction(bankAccountId,transactionName,LocalDate.now(), ((float) sum));
+            databaseConnection.addTransaction(transaction);
 
             PreparedStatement preparedStatement = connection.prepareStatement("update bankaccount set balance = ? where bankaccountid = ?");
             preparedStatement.setFloat(1,bankAccount.getBalance() + sum);
@@ -423,6 +424,7 @@ public class Controller {
 
             String transactionName = "Payment";
             Transaction transaction = new Transaction(bankAccountId,transactionName,LocalDate.now(), sum);
+            databaseConnection.addTransaction(transaction);
 
         }
     }
@@ -444,6 +446,7 @@ public class Controller {
             creditCard.setAvailableBalance(creditCard.getAvailableBalance() - sum);
             String transactionName = "Payment";
             Transaction transaction = new Transaction(creditCard.getBankAccountId(),transactionName,LocalDate.now(), sum);
+            databaseConnection.addTransaction(transaction);
         }
     }
 
@@ -459,7 +462,7 @@ public class Controller {
                 if (sum > bankAccount.getBalance()) {
                     String transactionName = "Failed attempt to withdraw money";
                     Transaction transaction = new Transaction(bankAccount.getBankAccountId(), transactionName, LocalDate.now(), 0);
-                    transactions.add(transaction);
+                    databaseConnection.addTransaction(transaction);
                     throw new MyException("Insufficient funds");
 
                 } else {
@@ -470,7 +473,7 @@ public class Controller {
                     preparedStatement.execute();
                     bankAccount.setBalance(bankAccount.getBalance() - sum);
                     Transaction transaction = new Transaction(bankAccount.getBankAccountId(), transactionName, LocalDate.now(), sum);
-                    transactions.add(transaction);
+                    databaseConnection.addTransaction(transaction);
                 }
             }
         }
@@ -502,12 +505,18 @@ public class Controller {
             if(transferFrom.getBalance() < sum) {
                 String transactionName = "Failed attempt to transfer money";
                 Transaction transaction = new Transaction(transferFromBankAccountId,transactionName, LocalDate.now(),0);
+                try {
+                    databaseConnection.addTransaction(transaction);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
                 throw new MyException("Not enough money to transfer.");
+
             }
             else{
                 String transactionName = "Money transfer";
                 MoneyTransfer transfer = new MoneyTransfer(transferFromBankAccountId,transactionName, LocalDate.now(),sum,transferToBankAccountId);
-                transactions.add(transfer);
+                databaseConnection.addMoneyTransfer(transfer);
                 try {
                     updateSold(transferFromBankAccountId,transferFrom.getBalance() - sum);
                     updateSold(transferToBankAccountId,transferTo.getBalance() + sum);

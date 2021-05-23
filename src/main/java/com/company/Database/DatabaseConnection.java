@@ -6,6 +6,8 @@ import com.company.Cards.CreditCard;
 import com.company.Cards.DebitCard;
 import com.company.Client.AppAccount;
 import com.company.Client.Client;
+import com.company.Transactions.MoneyTransfer;
+import com.company.Transactions.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -148,37 +150,36 @@ public class DatabaseConnection {
         PreparedStatement preparedStatement = null;
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from id");
-        int last_id = 0;
+        Long card_nr = null;
+        int cvv = 0;
         while (resultSet.next()){
-            last_id = resultSet.getInt("iban_nr");
+            card_nr = resultSet.getLong("card_nr");
+            cvv = resultSet.getInt("cvv");
         }
         PreparedStatement preparedStatement1 = connection.prepareStatement("update id set card_nr = ? where card_nr = ?");
-        preparedStatement1.setLong(1,last_id + 1);
-        preparedStatement1.setLong(2,last_id);
+        preparedStatement1.setLong(1,card_nr + 1);
+        preparedStatement1.setLong(2,card_nr);
         preparedStatement1.execute();
+        PreparedStatement preparedStatement2 = connection.prepareStatement("update id set cvv = ? where cvv = ?");
+        preparedStatement2.setLong(1,cvv+1);
+        preparedStatement2.setInt(2,cvv);
+        preparedStatement2.execute();
         try {
             preparedStatement = connection.prepareStatement("insert into card(cardnumber,cvv,expirationdate,bankaccountid) values (?,?,?,?)");
-            preparedStatement.setLong(1, last_id + 1);
-            preparedStatement.setInt(2, creditCard.getCVV());
+            preparedStatement.setLong(1, card_nr);
+            preparedStatement.setInt(2, cvv);
             preparedStatement.setDate(3, Date.valueOf(creditCard.getExpirationDate()));
             preparedStatement.setInt(4, bankAccountId);
 
             preparedStatement.execute();
             preparedStatement = connection.prepareStatement("insert into creditcard values (?,?,?)");
             int creditCardId;
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("select MAX(cardid) as cardidd from card");
+            Statement statement2;
+            statement2 = connection.createStatement();
+            resultSet = statement2.executeQuery("select MAX(cardid) as cardidd from card");
 
             if (resultSet.next() != false) {
                 creditCardId = resultSet.getInt("cardidd");
-                preparedStatement1 = connection.prepareStatement("update card set cardnumber = ? where cardid = ?");
-                preparedStatement1.setLong(1,1000000000 + creditCardId);
-                preparedStatement1.setInt(2,creditCardId);
-                preparedStatement1.execute();
-                preparedStatement1 = connection.prepareStatement("update card set cvv = ? where cardid = ?");
-                preparedStatement1.setInt(1,creditCardId + 1000000000);
-                preparedStatement1.setInt(2,creditCardId);
-                System.out.println(creditCardId);
                 preparedStatement.setInt(1, creditCardId);
                 preparedStatement.setFloat(2, creditCard.getAvailableBalance());
                 preparedStatement.setDate(3, Date.valueOf(creditCard.getDueDate()));
@@ -198,18 +199,24 @@ public class DatabaseConnection {
         PreparedStatement preparedStatement = null;
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from id");
-        int last_id = 0;
+        Long card_nr = null;
+        int cvv = 0;
         while (resultSet.next()){
-            last_id = resultSet.getInt("iban_nr");
+            card_nr = resultSet.getLong("card_nr");
+            cvv = resultSet.getInt("cvv");
         }
         PreparedStatement preparedStatement1 = connection.prepareStatement("update id set card_nr = ? where card_nr = ?");
-        preparedStatement1.setLong(1,last_id + 1);
-        preparedStatement1.setLong(2,last_id);
+        preparedStatement1.setLong(1,card_nr + 1);
+        preparedStatement1.setLong(2,card_nr);
         preparedStatement1.execute();
+        PreparedStatement preparedStatement2 = connection.prepareStatement("update id set cvv = ? where cvv = ?");
+        preparedStatement2.setLong(1,cvv+1);
+        preparedStatement2.setInt(2,cvv);
+        preparedStatement2.execute();
         try {
             preparedStatement = connection.prepareStatement("insert into card(cardnumber,cvv,expirationdate,bankaccountid) values (?,?,?,?)");
-            preparedStatement.setLong(1, last_id);
-            preparedStatement.setInt(2, debitCard.getCVV());
+            preparedStatement.setLong(1, card_nr);
+            preparedStatement.setInt(2, cvv);
             preparedStatement.setDate(3, Date.valueOf(debitCard.getExpirationDate()));
             preparedStatement.setInt(4, bankAccountId);
 
@@ -220,13 +227,6 @@ public class DatabaseConnection {
             resultSet = statement.executeQuery("select MAX(cardid) as cardidd from card");
             while (resultSet.next()) {
                 debitCardId = resultSet.getInt("cardidd");
-                preparedStatement1 = connection.prepareStatement("update card set cardnumber = ? where cardid = ?");
-                preparedStatement1.setLong(1,1000000000 + debitCardId);
-                preparedStatement1.setInt(2,debitCardId + 1000);
-                preparedStatement1.execute();
-                preparedStatement1 = connection.prepareStatement("update card set cvv = ? where cardid = ?");
-                preparedStatement1.setInt(1,debitCardId + 1000);
-                preparedStatement1.setInt(1,debitCardId);
                 preparedStatement.setInt(1, debitCardId);
                 preparedStatement.setFloat(2, debitCard.getOverDraftLimit());
                 preparedStatement.setFloat(3, debitCard.getTransactionCommission());
@@ -238,6 +238,36 @@ public class DatabaseConnection {
             throwables.printStackTrace();
         }
 
+    }
+
+
+    public void addTransaction(Transaction transaction) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into transaction (transactionname,bankaccountid,transactiondate,sold) values  (?,?,?,?)");
+        preparedStatement.setString(1,transaction.getTransactionName());
+        preparedStatement.setInt(2,transaction.getBankAccountId());
+        preparedStatement.setDate(3,Date.valueOf(transaction.getDate()));
+        preparedStatement.setFloat(4,transaction.getSold());
+        preparedStatement.execute();
+
+    }
+
+    public void addMoneyTransfer(MoneyTransfer moneyTransfer){
+        try {
+            addTransaction(((Transaction) moneyTransfer));
+            int lastId = 0;
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select MAX(transactionid) as transactionId from transaction");
+            while (resultSet.next()){
+                lastId = resultSet.getInt("transactionid");
+            }
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into moneytransfer values (?,?)");
+            preparedStatement.setInt(1,lastId);
+            preparedStatement.setInt(2,moneyTransfer.getTransferToBankAccountId());
+            preparedStatement.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 
