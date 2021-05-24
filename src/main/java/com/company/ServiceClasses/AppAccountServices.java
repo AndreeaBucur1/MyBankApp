@@ -15,6 +15,7 @@ public class AppAccountServices {
     public void firstOption(Controller controller) {
         GetFromDatabase getFromDatabase = new GetFromDatabase();
         WriteToFiles writeToFiles = new WriteToFiles();
+        DeleteFromDatabase deleteFromDatabase = new DeleteFromDatabase();
         boolean okPass = false;
         do {
             System.out.println("Enter your access token: ");
@@ -48,7 +49,8 @@ public class AppAccountServices {
                         System.out.println("Option 2: Transfer money");
                         System.out.println("Option 3: Get an account statement");
                         System.out.println("Option 4: Change password");
-                        System.out.println("Option 5: Exit");
+                        System.out.println("Option 5: Delete app account");
+                        System.out.println("Option 6: Exit");
                         System.out.println();
 
 
@@ -146,13 +148,22 @@ public class AppAccountServices {
 
 
                         }
+                        else if(newOption == 5){
+                            try {
+                                deleteFromDatabase.deleteAppAccount(appAccount);
+                                newOption = 6;
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+
+                        }
 
 
 
-                        else if (newOption == 5) {
+                        if (newOption == 6) {
                             System.out.println("You signed out of your account");
                         }
-                    } while (newOption != 5);
+                    } while (newOption != 6);
                 }
             } else {
                 System.out.println("Wrong access token");

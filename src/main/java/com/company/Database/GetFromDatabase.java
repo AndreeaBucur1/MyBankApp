@@ -169,6 +169,17 @@ public class GetFromDatabase {
         return allCards;
     }
 
+    public ArrayList<Card> getCardsOfBankAccount(BankAccount bankAccount){
+        ArrayList<Card> allCards = getAllCards();
+        ArrayList<Card> cardsOfThisBankAccount = new ArrayList<>();
+        for(Card card : allCards){
+            if(card.getBankAccountId() == bankAccount.getBankAccountId()){
+                cardsOfThisBankAccount.add(card);
+            }
+        }
+        return cardsOfThisBankAccount;
+    }
+
 
 
 

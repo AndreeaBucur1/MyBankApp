@@ -20,11 +20,11 @@ public class ManagerServices {
         DeleteFromDatabase deleteFromDatabase = new DeleteFromDatabase();
         boolean okPass = false;
         do{
-            System.out.println("Enter your access token");
+            System.out.print("Enter your access token: ");
             Scanner scanner = new Scanner(System.in);
             int accessToken = scanner.nextInt();
             if(accessToken == 1){
-                System.out.println("Enter your password");
+                System.out.print("Enter your password: ");
                 String password = scanner.next();
                 if(password.compareTo("manager") != 0){
                     System.out.println("Wrong password");
@@ -35,7 +35,7 @@ public class ManagerServices {
                         okPass = true;
                         int option;
                         do {
-                            System.out.println("Choose an option");
+
 
                             System.out.println();
                             System.out.println("Option 1: Add client");
@@ -50,10 +50,11 @@ public class ManagerServices {
                             System.out.println("Option 10: Delete app account");
                             System.out.println("Option 11: Exit");
                             System.out.println();
+                            System.out.print("Choose an option: ");
 
                             option = scanner.nextInt();
                             if (option > 11) {
-                                System.out.println("Choose a valid option");
+                                System.out.print("Choose a valid option: ");
                                 System.out.println();
                             } else if (option == 1) {
                                controller.addClient();
@@ -72,7 +73,7 @@ public class ManagerServices {
                             } else if (option == 3) {
                                 System.out.println("This are all the clients:");
                                 controller.displayClients();
-                                System.out.println("Enter the id of the client you want to add the bank account to: ");
+                                System.out.print("Enter the id of the client you want to add the bank account to: ");
                                 int clientId = scanner.nextInt();
                                 int newOption;
                                 do {
@@ -281,6 +282,17 @@ public class ManagerServices {
                                     else {
                                         System.out.println("You are trying to delete a credit card.");
                                     }
+                                }
+                            }
+
+                            else if(option == 8){
+                                System.out.print("Enter the id of the bank account you want to delete");
+                                int bankAccountId = scanner.nextInt();
+                                try {
+                                    deleteFromDatabase.deleteBankAccount(controller.findBankAccountById(bankAccountId));
+                                    System.out.println("Account deleted");
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
                                 }
                             }
 
