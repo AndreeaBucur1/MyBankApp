@@ -23,19 +23,20 @@ public class CardServices {
                 okCard = true;
                 int option;
                 do {
-                    System.out.println("Choose an option: ");
+
                     System.out.println("Option 1: Check balance");
                     System.out.println("Option 2: Withdraw money");
                     System.out.println("Option 3: Add funds");
                     System.out.println("Option 4: Make a payment");
                     System.out.println("Option 5: Exit");
+                    System.out.print("Choose an option: ");
                     option = scan.nextInt();
                     if (option == 1) {
 //                BankAccount bankAccount = controller.findBankAccount(card.getBankAccountId());
                         System.out.println("Balance: " + controller.checkBalance(card.getBankAccountId()));
                         writeToFiles.writeToAudit("Check Balance");
                     } else if (option == 2) {
-                        System.out.println("Enter the sum you want to withdraw: ");
+                        System.out.print("Enter the sum you want to withdraw: ");
                         int sum = scan.nextInt();
                         BankAccount bankAccount = controller.findBankAccountById(card.getBankAccountId());
                         System.out.println(bankAccount);
@@ -55,7 +56,7 @@ public class CardServices {
                         writeToFiles.writeToAudit("Money withdrawal");
 
                     } else if (option == 3) {
-                        System.out.println("Enter the sum you want to add to your account");
+                        System.out.print("Enter the sum you want to add to your account: ");
                         int sum = scan.nextInt();
                         BankAccount bankAccount = controller.findBankAccountById(card.getBankAccountId());
                         System.out.println(bankAccount);
@@ -72,7 +73,7 @@ public class CardServices {
                     }
                     else  if(option == 4){
                         if(card instanceof DebitCard) {
-                            System.out.println("Enter the sum you want to pay with your card");
+                            System.out.print("Enter the sum you want to pay with your card: ");
                             float sum = scan.nextFloat();
                             BankAccount bankAccount = controller.findBankAccountById(card.getBankAccountId());
 
@@ -89,7 +90,7 @@ public class CardServices {
                             }
                         }
                         else if(card instanceof CreditCard){
-                            System.out.println("Enter the sum you want to pay with your card");
+                            System.out.print("Enter the sum you want to pay with your card: ");
                             float sum = scan.nextFloat();
                             try {
                                 controller.payment((CreditCard) card,sum);

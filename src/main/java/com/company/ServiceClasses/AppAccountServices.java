@@ -18,10 +18,10 @@ public class AppAccountServices {
         DeleteFromDatabase deleteFromDatabase = new DeleteFromDatabase();
         boolean okPass = false;
         do {
-            System.out.println("Enter your access token: ");
+            System.out.print("Enter your access token: ");
             Scanner scan = new Scanner(System.in);
             int accessToken = scan.nextInt();
-            System.out.println("Enter your password: ");
+            System.out.print("Enter your password: ");
             String password = scan.next();
             AppAccount appAccount = controller.findAppAccountByAccessToken(accessToken);
             System.out.println(appAccount);
@@ -43,7 +43,7 @@ public class AppAccountServices {
                             throwables.printStackTrace();
                         }
                         System.out.println(client);
-                        System.out.println("Choose an option:");
+
                         System.out.println();
                         System.out.println("Option 1: Check balance");
                         System.out.println("Option 2: Transfer money");
@@ -52,6 +52,7 @@ public class AppAccountServices {
                         System.out.println("Option 5: Delete app account");
                         System.out.println("Option 6: Exit");
                         System.out.println();
+                        System.out.print("Choose an option: ");
 
 
                         newOption = scan.nextInt();
@@ -74,14 +75,14 @@ public class AppAccountServices {
                                 nr++;
                                 System.out.println(nr + " " + bankAccount);
                             }
-                            System.out.println("Enter the number of the bank account you want to transfer money from");
+                            System.out.print("Enter the number of the bank account you want to transfer money from: ");
                             int cardNr = scan.nextInt();
                             if (cardNr > clientBankAccounts.size()) {
                                 System.out.println("Invalid option");
                             } else {
                                 BankAccount transferMoneyFrom = clientBankAccounts.get(cardNr - 1);
                                 System.out.println(transferMoneyFrom);
-                                System.out.println("Enter the IBAN of the bank account you want to transfer money to");
+                                System.out.print("Enter the IBAN of the bank account you want to transfer money to: ");
                                 String iban = scan.next();
                                 BankAccount transferMoneyTo = null;
                                 try {
@@ -92,7 +93,7 @@ public class AppAccountServices {
                                 if (transferMoneyTo == null) {
                                     System.out.println("Wrong IBAN");
                                 } else {
-                                    System.out.println("Enter the sum you want to send");
+                                    System.out.print("Enter the sum you want to send: ");
                                     float sum = scan.nextFloat();
 
                                     System.out.println(transferMoneyFrom);
@@ -130,12 +131,12 @@ public class AppAccountServices {
 
 
                         else if(newOption == 3) {
-                            System.out.println("Enter the number of the month: ");
+                            System.out.print("Enter the number of the month: ");
                             int month = scan.nextInt();
                             System.out.println("This are your bank accounts:");
                             for(BankAccount bankAccount : client.getBankAccounts())
                                 System.out.println("1" + bankAccount);
-                            System.out.println("Enter the number of the account");
+                            System.out.print("Enter the number of the account: ");
                             int bankAccountNr = scan.nextInt();
                             BankAccount bankAccount = client.getBankAccounts().get(bankAccountNr-1);
                             AccountStatement accountStatement = controller.accountStatement(bankAccount.getBankAccountId(),month);

@@ -8,6 +8,8 @@ import com.company.Cards.DebitCard;
 import com.company.Client.AppAccount;
 import com.company.Client.Client;
 import com.company.ServiceClasses.Controller;
+import com.company.Transactions.MoneyTransfer;
+import com.company.Transactions.Transaction;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -178,6 +180,27 @@ public class GetFromDatabase {
             }
         }
         return cardsOfThisBankAccount;
+    }
+
+    public ArrayList<Transaction> getTransactionsOfBankAccount(int bankAccountId) throws SQLException {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        Connection connection = databaseConnection.Connection();
+        ArrayList<Transaction> clientsTransactions = new ArrayList<>();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from transaction right join moneytransfer on transactionid = transferid where bankaccountid = " + bankAccountId + " or transfertobankaccountid = " + bankAccountId);
+        while (resultSet.next()){
+            MoneyTransfer moneyTransfer = new MoneyTransfer(resultSet.getInt("transferid"),resultSet.getString("transactionname"),resultSet.getDate("transactiondate").toLocalDate(),resultSet.getFloat("sold"),resultSet.getInt("transfertobankaccountid"));
+            clientsTransactions.add(moneyTransfer);
+        }
+        Statement statement1 = connection.createStatement();
+        ResultSet resultSet1 = statement1.executeQuery("select * from transaction where transactionid not in (select transferid from moneytransfer) and bankaccountid = " + bankAccountId);
+        while(resultSet.next()){
+            Transaction transaction = new Transaction(resultSet.getInt("transactionid"),resultSet.getString("transactionname"),resultSet.getInt("bankaccountid"),resultSet.getDate("transactiondate").toLocalDate(),resultSet.getFloat("sold"));
+            clientsTransactions.add(transaction);
+
+        }
+        return clientsTransactions;
+
     }
 
 

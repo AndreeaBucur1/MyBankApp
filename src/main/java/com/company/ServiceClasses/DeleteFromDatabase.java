@@ -9,6 +9,7 @@ import com.company.Client.AppAccount;
 import com.company.Client.Client;
 import com.company.Database.DatabaseConnection;
 import com.company.Database.GetFromDatabase;
+import com.company.Transactions.Transaction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,6 +53,13 @@ public class DeleteFromDatabase {
 
     }
 
+    public void deleteTransaction(int bankAccountId) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("delete from transaction where bankaccountid = " +bankAccountId);
+        preparedStatement.execute();
+        PreparedStatement preparedStatement1 = connection.prepareStatement("delete from moneytransfer where transfertobankaccountid = " + bankAccountId);
+        preparedStatement1.execute();
+    }
+
     public void deleteBankAccount(BankAccount bankAccount) throws SQLException {
         Controller controller = new Controller();
         GetFromDatabase getFromDatabase = new GetFromDatabase();
@@ -77,6 +85,8 @@ public class DeleteFromDatabase {
         preparedStatement.setInt(1,bankAccount.getBankAccountId());
         preparedStatement.execute();
 
+        deleteTransaction(bankAccount.getBankAccountId());
+
         preparedStatement = null;
         preparedStatement = connection.prepareStatement("delete from bankaccount where bankaccountid = " + bankAccount.getBankAccountId());
         preparedStatement.execute();
@@ -86,6 +96,8 @@ public class DeleteFromDatabase {
             preparedStatement = connection.prepareStatement("delete from savingaccount where savingaccountid = " + bankAccount.getBankAccountId());
             preparedStatement.execute();
         }
+
+
 
     }
 

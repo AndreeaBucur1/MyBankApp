@@ -61,7 +61,7 @@ public class ManagerServices {
                             } else if (option == 2) {
                                 System.out.println("This are all the clients:");
                                 controller.displayClients();
-                                System.out.println("Enter the id of the client you want to add app account");
+                                System.out.print("Enter the id of the client you want to add app account: ");
                                 int clientId = scanner.nextInt();
                                 try {
                                     controller.addAppAccount(clientId);
@@ -100,13 +100,13 @@ public class ManagerServices {
                                     } else if (newOption == 3) {
                                         System.out.println("Canceled.");
                                     } else {
-                                        System.out.println("Enter a valid option.");
+                                        System.out.print("Enter a valid option: ");
                                     }
                                 } while (!(newOption == 1 || newOption == 2 || newOption == 3));
                             }
                             else if(option == 4){
                                 controller.displayClients();
-                                System.out.println("Enter the id of the client: ");
+                                System.out.print("Enter the id of the client: ");
                                 int clientId = scanner.nextInt();
                                 Client client = null;
                                 try {
@@ -133,7 +133,7 @@ public class ManagerServices {
                                     int bankAccId;
                                     do {
                                         System.out.println("Enter the id of the bank account you want to add the card to:");
-                                        System.out.println("Enter -1 to abort");
+                                        System.out.print("Enter -1 to abort: ");
                                         bankAccId = scanner.nextInt();
                                         if (bankAccId <= client.getBankAccounts().size())
                                             validBankAccountId = true;
@@ -144,7 +144,7 @@ public class ManagerServices {
                                         if (bankAccId <= client.getBankAccounts().size()) {
                                             BankAccount bankAccount = client.getBankAccounts().get(bankAccId - 1);
                                             boolean validOption = false;
-                                            System.out.println("Choose an option:");
+                                            System.out.println("Choose an option: ");
                                             do {
 
                                                 System.out.println();
@@ -173,7 +173,7 @@ public class ManagerServices {
                                                         e.printStackTrace();
                                                     }
                                                 } else {
-                                                    System.out.println("Choose a valid option");
+                                                    System.out.print("Choose a valid option: ");
                                                 }
                                             } while (!validOption);
 
@@ -186,7 +186,7 @@ public class ManagerServices {
 
                             }
                             else if(option == 5){
-                                System.out.println("Choose an option: ");
+
                                 boolean validOption = false;
                                 do {
                                     System.out.println();
@@ -199,6 +199,8 @@ public class ManagerServices {
                                     System.out.println("7: Display transactions");
                                     System.out.println("8: Display app accounts");
                                     System.out.println("9: Cancel");
+                                    System.out.println();
+                                    System.out.print("Choose an option: ");
                                     int newOption = scanner.nextInt();
                                     if(newOption == 1){
                                         controller.displayClients();
@@ -225,7 +227,6 @@ public class ManagerServices {
                                         validOption = true;
                                     }
                                     else if(newOption == 6){
-                                        controller.displayAccountStatements(controller.getAccountStatements());
                                         validOption = true;
                                     }
                                     else if(newOption == 7){
@@ -241,7 +242,7 @@ public class ManagerServices {
                                         validOption = true;
                                     }
                                     else {
-                                        System.out.println("Choose a valid option");
+                                        System.out.print("Choose a valid option: ");
                                     }
                                 }while (!validOption);
 

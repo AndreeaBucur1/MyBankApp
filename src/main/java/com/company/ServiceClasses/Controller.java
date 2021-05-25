@@ -41,15 +41,15 @@ public class Controller {
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
-    public void setTransactions(ArrayList<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-    public ArrayList<AccountStatement> getAccountStatements() {
-        return accountStatements;
-    }
-    public void setAccountStatements(ArrayList<AccountStatement> accountStatements) {
-        this.accountStatements = accountStatements;
-    }
+//    public void setTransactions(ArrayList<Transaction> transactions) {
+//        this.transactions = transactions;
+//    }
+//    public ArrayList<AccountStatement> getAccountStatements() {
+//        return accountStatements;
+//    }
+//    public void setAccountStatements(ArrayList<AccountStatement> accountStatements) {
+//        this.accountStatements = accountStatements;
+//    }
 
 
 
