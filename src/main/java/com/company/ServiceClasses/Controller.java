@@ -541,6 +541,11 @@ public class Controller {
 
     public AccountStatement accountStatement(int bankAccountId,int month) {
         ArrayList<Transaction> accountTransactions = new ArrayList<>();
+        try {
+            accountTransactions = getFromDatabase.getTransactionsOfBankAccount(bankAccountId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         for (Transaction transaction : transactions)
             if (transaction.getBankAccountId() == bankAccountId) {
                 int date = transaction.getDate().getMonthValue();
